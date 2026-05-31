@@ -1,761 +1,116 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>TURNO FIXO - Timóteo | Escala de Trabalho</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Download do Aplicativo</title>
 
-        body {
-            background: #e8eef2;
-            font-family: 'Inter', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 12px 10px 20px 10px;
-            min-height: 100vh;
-        }
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-        .app-container {
-            max-width: 100%;
-            width: 100%;
-            background: #fefef7;
-            border-radius: 32px;
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
-            transition: all 0.2s;
-        }
+    body{
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background: linear-gradient(135deg, #4b0082, #8a2be2, #ff4500);
+      overflow:hidden;
+    }
 
-        .header {
-            background: #d9e6f2;
-            padding: 18px 12px;
-            text-align: center;
-            border-bottom: 1px solid #cbdbe2;
-        }
-        .header h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: -0.3px;
-            color: #2c4c6e;
-            background: none;
-            -webkit-background-clip: unset;
-            color: #2c4c6e;
-        }
-        .header p {
-            font-size: 0.75rem;
-            color: #5f7f9e;
-            margin-top: 6px;
-            font-weight: 500;
-        }
+    .container{
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      padding:40px 30px;
+      border-radius:30px;
+      text-align:center;
+      width:90%;
+      max-width:500px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.35);
+      border:1px solid rgba(255,255,255,0.15);
+    }
 
-        /* Seletor de grupo */
-        .grupo-selector {
-            background: #f4f7fb;
-            padding: 10px 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        .grupo-selector span {
-            font-size: 0.7rem;
-            color: #5f7f9e;
-            font-weight: 600;
-        }
-        .grupo-buttons {
-            display: flex;
-            gap: 6px;
-            background: #e9edf2;
-            padding: 4px 8px;
-            border-radius: 48px;
-        }
-        .grupo-btn {
-            background: #fdfdfd;
-            border: 1px solid #cbd5e1;
-            padding: 5px 14px;
-            border-radius: 40px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            cursor: pointer;
-            color: #2c4c6e;
-            transition: 0.2s;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
-        }
-        .grupo-btn.active {
-            background: #b8d9e6;
-            border-color: #7fb4c9;
-            color: #1a3a52;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-        }
-        .grupo-btn:active { transform: scale(0.96); }
+    .logo{
+      width:120px;
+      margin-bottom:25px;
+      border-radius:25px;
+      box-shadow:0 5px 20px rgba(0,0,0,0.25);
+    }
 
-        /* Navegação do calendário */
-        .calendar-nav {
-            background: #f4f7fb;
-            padding: 10px 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        .nav-controls {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            background: #e9edf2;
-            padding: 4px 10px;
-            border-radius: 48px;
-        }
-        .nav-btn {
-            background: #fdfdfd;
-            border: 1px solid #cbd5e1;
-            color: #2c4c6e;
-            font-size: 1.1rem;
-            font-weight: bold;
-            width: 32px;
-            height: 32px;
-            border-radius: 40px;
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
-        }
-        .nav-btn:active { transform: scale(0.94); background: #e2e8f0; }
-        .month-year {
-            font-weight: 700;
-            font-size: 0.9rem;
-            color: #2c4c6e;
-            min-width: 120px;
-            text-align: center;
-        }
-        .view-toggle {
-            display: flex;
-            gap: 6px;
-        }
-        .view-btn {
-            background: #fdfdfd;
-            border: 1px solid #cbd5e1;
-            padding: 5px 12px;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            cursor: pointer;
-            color: #5f7f9e;
-            transition: 0.2s;
-        }
-        .view-btn.active {
-            background: #b8d9e6;
-            border-color: #7fb4c9;
-            color: #1a3a52;
-        }
-        .view-btn:active { transform: scale(0.96); }
+    h1{
+      color:white;
+      font-size:28px;
+      margin-bottom:30px;
+      line-height:1.4;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
 
-        /* Calendário responsivo com tons pastel */
-        .calendar-month-view {
-            padding: 12px 10px;
-            display: none;
-            background: #fefef7;
-        }
-        .calendar-month-view.active-view {
-            display: block;
-        }
-        .weekdays {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            text-align: center;
-            margin-bottom: 8px;
-        }
-        .weekdays span {
-            font-size: 0.65rem;
-            font-weight: 600;
-            color: #7f9bb5;
-            text-transform: uppercase;
-            padding: 6px 0;
-        }
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 4px;
-        }
-        .calendar-day {
-            background: #fafbfd;
-            border-radius: 16px;
-            padding: 6px 2px;
-            text-align: center;
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: #2c4c6e;
-            transition: 0.1s;
-            cursor: pointer;
-            border: 1px solid #e6edf4;
-            min-height: 58px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
-        }
-        .calendar-day.empty {
-            background: transparent;
-            cursor: default;
-            min-height: auto;
-            border: none;
-            box-shadow: none;
-        }
-        .calendar-day.today {
-            border: 2px solid #7fb4c9;
-            background: #eef3fc;
-        }
-        .day-number {
-            font-size: 0.85rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-            color: #2c4c6e;
-        }
-        .turno-status {
-            font-size: 0.6rem;
-            font-weight: 700;
-            padding: 3px 4px;
-            border-radius: 24px;
-            display: inline-block;
-            margin-top: 2px;
-            width: 90%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .turno-trabalho {
-            background: #f5d0e9;
-            color: #8b3c6b;
-        }
-        .turno-folga {
-            background: #cbe4fe;
-            color: #2c5282;
-        }
-        .feriado-badge {
-            background: #fef1cf;
-            color: #b56a0c;
-            font-size: 0.55rem;
-            padding: 2px 3px;
-            border-radius: 16px;
-            margin-top: 3px;
-            display: inline-block;
-            font-weight: 700;
-            max-width: 100%;
-            white-space: nowrap;
-            overflow-x: hidden;
-            text-overflow: ellipsis;
-        }
+    .download-btn{
+      display:inline-block;
+      text-decoration:none;
+      background: linear-gradient(135deg, #ffffff, #f1f1f1);
+      color:#5a189a;
+      font-size:20px;
+      font-weight:bold;
+      padding:18px 35px;
+      border-radius:18px;
+      transition:0.3s ease;
+      box-shadow:0 8px 20px rgba(0,0,0,0.25);
+    }
 
-        /* Tabela de escala responsiva */
-        .escala-view {
-            display: none;
-            background: #fefef7;
-        }
-        .escala-view.active-view {
-            display: block;
-        }
-        .escala-table-wrapper {
-            overflow-x: auto;
-            padding: 0 4px 4px 4px;
-            -webkit-overflow-scrolling: touch;
-        }
-        .escala-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.7rem;
-            min-width: 480px;
-        }
-        .escala-table th {
-            background: #e4edf5;
-            color: #2c4c6e;
-            font-weight: 700;
-            padding: 10px 4px;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            border-bottom: 1px solid #cbdbe2;
-        }
-        .escala-table td {
-            padding: 8px 4px;
-            border-bottom: 1px solid #e6edf4;
-            text-align: center;
-            font-weight: 500;
-            color: #2c3e50;
-        }
-        .col-data {
-            text-align: left;
-            font-weight: 700;
-            color: #3d6b92;
-            padding-left: 6px;
-            white-space: nowrap;
-        }
-        .dia-semana {
-            font-weight: 500;
-        }
-        .sab { color: #5f9ea0 !important; }
-        .dom { color: #cd8c7a !important; }
-        .feriado-marker {
-            background: #fef1cf;
-            font-size: 0.6rem;
-            padding: 2px 5px;
-            border-radius: 20px;
-            margin-left: 4px;
-            display: inline-block;
-            color: #b56a0c;
-            font-weight: 700;
-        }
-        .turno-g1 { color: #c15a9c; font-weight: 700; }
-        .turno-g2 { color: #5f9e6e; font-weight: 700; }
-        .turno-g3 { color: #3d8f8f; font-weight: 700; }
-        .turno-g4 { color: #8f7aa7; font-weight: 700; }
-        .turno-folga { color: #3b7bb7; font-weight: 700; }
+    .download-btn:hover{
+      transform:translateY(-4px) scale(1.03);
+      background:white;
+      box-shadow:0 12px 25px rgba(0,0,0,0.35);
+    }
 
-        .btn-agenda {
-            background: #e4edf5;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 4px 6px;
-            border-radius: 32px;
-            font-size: 0.85rem;
-            text-decoration: none;
-            transition: 0.2s;
-            color: #3d6b92;
-            width: 28px;
-            border: 1px solid #cbdbe2;
-        }
-        .btn-agenda:active { background: #cbdbe2; transform: scale(0.94); }
+    .download-btn:active{
+      transform:scale(0.98);
+    }
 
-        .observ-box {
-            background: #faf9f0;
-            margin: 12px 12px 10px 12px;
-            padding: 8px 12px;
-            border-radius: 20px;
-            border-left: 4px solid #f5c27b;
-        }
-        .observ-box h3 {
-            font-size: 0.75rem;
-            color: #c2821f;
-            margin-bottom: 6px;
-            font-weight: 700;
-        }
-        .observ-box ul {
-            padding-left: 18px;
-            color: #6a6f45;
-            font-size: 0.68rem;
-        }
-        .observ-box li {
-            margin: 4px 0;
-            color: #5f6b3c;
-        }
-        .footer-note {
-            text-align: center;
-            font-size: 0.55rem;
-            color: #8fa3b5;
-            padding: 8px 0 14px;
-            background: #fefef7;
-        }
+    .info{
+      margin-top:18px;
+      color:rgba(255,255,255,0.85);
+      font-size:14px;
+    }
 
-        @media (max-width: 450px) {
-            .calendar-day { min-height: 52px; padding: 4px 1px; }
-            .day-number { font-size: 0.75rem; }
-            .turno-status { font-size: 0.55rem; padding: 2px 2px; width: 95%; }
-            .feriado-badge { font-size: 0.5rem; white-space: normal; line-height: 1.2; }
-            .grupo-btn { padding: 4px 10px; font-size: 0.7rem; }
-            .month-year { font-size: 0.8rem; min-width: 100px; }
-        }
-    </style>
+    @media(max-width:600px){
+      h1{
+        font-size:22px;
+      }
+
+      .download-btn{
+        width:100%;
+        font-size:18px;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="app-container">
-    <div class="header">
-        <h1>🏭 TURNO FIXO</h1>
-        <p> MG | Escala 6x2</p>
+
+  <div class="container">
+
+    <!-- Substitua "logo.png" pela imagem do seu ícone -->
+    <img src="logo.png" alt="Logo Aplicativo" class="logo">
+
+    <h1>
+      Baixe aqui o Seu Aplicativo da Tabela de Turno Fixo Inteligente
+    </h1>
+
+    <!-- Substitua o link abaixo pelo link real do seu arquivo -->
+    <a href=https://drive.google.com/file/d/1NSinZno4p9v-pvoBMSS43cDELfJA6fxZ/view?usp=drivesdk class="download-btn" download>
+      📥 Baixar Aplicativo
+    </a>
+
+    <div class="info">
+      Clique no botão para iniciar o download.
     </div>
 
-    <!-- Seletor de Grupo -->
-    <div class="grupo-selector">
-        <span>👥 Visualizar grupo:</span>
-        <div class="grupo-buttons">
-            <button class="grupo-btn" data-grupo="G1">G1</button>
-            <button class="grupo-btn" data-grupo="G2">G2</button>
-            <button class="grupo-btn active" data-grupo="G3">G3</button>
-            <button class="grupo-btn" data-grupo="G4">G4</button>
-        </div>
-    </div>
+  </div>
 
-    <div class="calendar-nav">
-        <div class="nav-controls">
-            <button class="nav-btn" id="prevMonthBtn">◀</button>
-            <span class="month-year" id="monthYearLabel">Maio 2026</span>
-            <button class="nav-btn" id="nextMonthBtn">▶</button>
-        </div>
-        <div class="view-toggle">
-            <button class="view-btn active" id="viewCalendarBtn">📅 Calendário</button>
-            <button class="view-btn" id="viewScaleBtn">📋 Escala</button>
-        </div>
-    </div>
-
-    <!-- Visualização Calendário -->
-    <div id="calendarView" class="calendar-month-view active-view">
-        <div class="weekdays">
-            <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
-        </div>
-        <div id="calendarGrid" class="calendar-grid"></div>
-        <div class="observ-box" style="margin-top: 12px;">
-            <h3>📌 Legenda</h3>
-            <ul>
-                <li>🔵 Azul pastel: Folga do grupo selecionado</li>
-                <li>🟣 Rosa pastel: Trabalho do grupo selecionado</li>
-                <li>🟡 Fundo dourado claro: Feriado Nacional</li>
-                <li>Toque no dia → abre a escala detalhada</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Visualização Tabela de Escala -->
-    <div id="scaleView" class="escala-view">
-        <div class="escala-table-wrapper">
-            <table class="escala-table">
-                <thead>
-                    <tr><th>📆 DATA</th><th>🗓️ DIA</th><th>G1</th><th>G2</th><th>G3</th><th>G4</th><th>📅</th></tr>
-                </thead>
-                <tbody id="escalaBody"></tbody>
-            </table>
-        </div>
-        <div class="observ-box" id="observBox">
-            <h3>📌 Feriados Nacionais do Mês</h3>
-            <ul id="feriadosList"><li>Carregando...</li></ul>
-        </div>
-    </div>
-
-    <div class="footer-note">
-        ⚡ Navegue até 2030 | Botão 📅 adiciona evento do G3 ao Google Agenda
-    </div>
-</div>
-
-<script>
-    // ==================== ESCALA BASEADA NA IMAGEM FORNECIDA ====================
-    const escalaBase = [
-        { data: "16/05/2026", g1:"F", g2:"2", g3:"3", g4:"4" },
-        { data: "17/05/2026", g1:"F", g2:"2", g3:"3", g4:"4" },
-        { data: "18/05/2026", g1:"1", g2:"F", g3:"3", g4:"4" },
-        { data: "19/05/2026", g1:"1", g2:"F", g3:"3", g4:"4" },
-        { data: "20/05/2026", g1:"1", g2:"2", g3:"F", g4:"4" },
-        { data: "21/05/2026", g1:"1", g2:"2", g3:"F", g4:"4" },
-        { data: "22/05/2026", g1:"1", g2:"2", g3:"3", g4:"F" },
-        { data: "23/05/2026", g1:"1", g2:"2", g3:"3", g4:"F" },
-        { data: "24/05/2026", g1:"F", g2:"2", g3:"3", g4:"4" },
-        { data: "25/05/2026", g1:"F", g2:"2", g3:"3", g4:"4" },
-        { data: "26/05/2026", g1:"1", g2:"F", g3:"3", g4:"4" },
-        { data: "27/05/2026", g1:"1", g2:"F", g3:"3", g4:"4" },
-        { data: "28/05/2026", g1:"1", g2:"2", g3:"F", g4:"4" },
-        { data: "29/05/2026", g1:"1", g2:"2", g3:"F", g4:"4" },
-        { data: "30/05/2026", g1:"1", g2:"2", g3:"3", g4:"F" },
-        { data: "31/05/2026", g1:"1", g2:"2", g3:"3", g4:"F" }
-    ];
-    
-    const refDate = new Date(2026, 4, 16);
-    
-    function getTurnoPorData(date) {
-        const diffTime = date - refDate;
-        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-        let cicloPos = ((diffDays % 8) + 8) % 8;
-        const dadosReferencia = escalaBase[cicloPos];
-        if (dadosReferencia) {
-            return { g1: dadosReferencia.g1, g2: dadosReferencia.g2, g3: dadosReferencia.g3, g4: dadosReferencia.g4 };
-        }
-        const padraoBase = escalaBase.slice(0, 8);
-        const padrao = padraoBase[cicloPos % 8];
-        return padrao ? { g1: padrao.g1, g2: padrao.g2, g3: padrao.g3, g4: padrao.g4 } : { g1:"1", g2:"2", g3:"3", g4:"4" };
-    }
-    
-    // Feriados nacionais fixos + móveis até 2030
-    const feriadosNacionais = [
-        { dia: 1, mes: 1, nome: "Confraternização" },
-        { dia: 21, mes: 4, nome: "Tiradentes" },
-        { dia: 1, mes: 5, nome: "Dia do Trabalhador" },
-        { dia: 7, mes: 9, nome: "Independência" },
-        { dia: 12, mes: 10, nome: "Aparecida" },
-        { dia: 2, mes: 11, nome: "Finados" },
-        { dia: 15, mes: 11, nome: "República" },
-        { dia: 20, mes: 11, nome: "Consciência Negra" },
-        { dia: 25, mes: 12, nome: "Natal" }
-    ];
-    
-    function getMovableHolidays(year) {
-        const a = year % 19;
-        const b = Math.floor(year / 100);
-        const c = year % 100;
-        const d = Math.floor(b / 4);
-        const e = b % 4;
-        const f = Math.floor((b + 8) / 25);
-        const g = Math.floor((b - f + 1) / 3);
-        const h = (19 * a + b - d - g + 15) % 30;
-        const i = Math.floor(c / 4);
-        const k = c % 4;
-        const l = (32 + 2 * e + 2 * i - h - k) % 7;
-        const m = Math.floor((a + 11 * h + 22 * l) / 451);
-        const month = Math.floor((h + l - 7 * m + 114) / 31);
-        const day = ((h + l - 7 * m + 114) % 31) + 1;
-        const pascoa = new Date(year, month-1, day);
-        const carnaval = new Date(pascoa); carnaval.setDate(pascoa.getDate() - 47);
-        const sextaSanta = new Date(pascoa); sextaSanta.setDate(pascoa.getDate() - 2);
-        const corpusChristi = new Date(pascoa); corpusChristi.setDate(pascoa.getDate() + 60);
-        return [
-            { dia: carnaval.getDate(), mes: carnaval.getMonth()+1, nome: "Carnaval" },
-            { dia: sextaSanta.getDate(), mes: sextaSanta.getMonth()+1, nome: "Sexta Santa" },
-            { dia: corpusChristi.getDate(), mes: corpusChristi.getMonth()+1, nome: "Corpus Christi" }
-        ];
-    }
-    
-    function getFeriadosByYear(year) {
-        let feriados = [...feriadosNacionais];
-        feriados.push(...getMovableHolidays(year));
-        const unique = new Map();
-        feriados.forEach(f => { const key = `${f.mes}/${f.dia}`; if (!unique.has(key)) unique.set(key, f.nome); });
-        return Array.from(unique.entries()).map(([key, nome]) => {
-            const [mes, dia] = key.split('/');
-            return { dia: parseInt(dia), mes: parseInt(mes), nome };
-        });
-    }
-    
-    let currentYear = 2026;
-    let currentMonth = 4;
-    let currentView = "calendar";
-    let selectedGrupo = "G3";
-    
-    const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-    const weekDays = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
-    
-    function getTurnoGrupo(grupo, turnos) {
-        const map = { G1: turnos.g1, G2: turnos.g2, G3: turnos.g3, G4: turnos.g4 };
-        return map[grupo];
-    }
-    
-    function updateMonthYearLabel() {
-        document.getElementById("monthYearLabel").innerText = `${monthNames[currentMonth]} ${currentYear}`;
-    }
-    
-    function renderCalendar() {
-        if(currentYear > 2030) currentYear = 2030;
-        if(currentYear < 2024) currentYear = 2024;
-        updateMonthYearLabel();
-        
-        const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
-        const startWeekday = firstDayOfMonth.getDay();
-        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-        const feriados = getFeriadosByYear(currentYear);
-        const feriadosMap = new Map();
-        feriados.forEach(f => { feriadosMap.set(`${f.mes}/${f.dia}`, f.nome); });
-        
-        const grid = document.getElementById("calendarGrid");
-        grid.innerHTML = "";
-        const today = new Date();
-        const isCurrentToday = (today.getFullYear() === currentYear && today.getMonth() === currentMonth);
-        
-        let cellIndex = 0;
-        const totalCells = startWeekday + daysInMonth;
-        const rows = Math.ceil(totalCells / 7);
-        
-        for(let r = 0; r < rows; r++) {
-            for(let c = 0; c < 7; c++) {
-                const dayNum = cellIndex - startWeekday + 1;
-                if(cellIndex < startWeekday || dayNum > daysInMonth) {
-                    const emptyDiv = document.createElement("div");
-                    emptyDiv.className = "calendar-day empty";
-                    grid.appendChild(emptyDiv);
-                } else {
-                    const dateObj = new Date(currentYear, currentMonth, dayNum);
-                    const turnos = getTurnoPorData(dateObj);
-                    const turnoGrupo = getTurnoGrupo(selectedGrupo, turnos);
-                    const isFeriado = feriadosMap.has(`${currentMonth+1}/${dayNum}`);
-                    const feriadoNome = isFeriado ? feriadosMap.get(`${currentMonth+1}/${dayNum}`) : "";
-                    const isTrabalho = turnoGrupo !== "F";
-                    
-                    const dayDiv = document.createElement("div");
-                    dayDiv.className = "calendar-day";
-                    if(isCurrentToday && dayNum === today.getDate()) dayDiv.classList.add("today");
-                    
-                    dayDiv.innerHTML = `
-                        <div class="day-number">${dayNum}</div>
-                        <div class="turno-status ${isTrabalho ? 'turno-trabalho' : 'turno-folga'}">
-                            ${isTrabalho ? `T${turnoGrupo}` : 'Folga'}
-                        </div>
-                        ${isFeriado ? `<div class="feriado-badge" title="${feriadoNome}">${feriadoNome.substring(0,6)}</div>` : ''}
-                    `;
-                    dayDiv.title = `${selectedGrupo}: ${isTrabalho ? `Trabalho Turno ${turnoGrupo}` : 'Folga'}${isFeriado ? ` • ${feriadoNome}` : ''}`;
-                    
-                    dayDiv.addEventListener("click", (function(d, m, y) {
-                        return function() {
-                            if(currentView === "calendar") {
-                                document.getElementById("viewScaleBtn").click();
-                                setTimeout(() => scrollToDate(d, m, y), 80);
-                            } else {
-                                scrollToDate(d, m, y);
-                            }
-                        };
-                    })(dayNum, currentMonth, currentYear));
-                    grid.appendChild(dayDiv);
-                }
-                cellIndex++;
-            }
-        }
-    }
-    
-    function scrollToDate(day, month, year) {
-        const targetDateStr = `${day.toString().padStart(2,'0')}/${(month+1).toString().padStart(2,'0')}/${year}`;
-        const rows = document.querySelectorAll("#escalaBody tr");
-        for(let row of rows) {
-            const dataCell = row.cells[0];
-            if(dataCell && dataCell.innerText.includes(targetDateStr)) {
-                row.scrollIntoView({ behavior: "smooth", block: "center" });
-                row.style.backgroundColor = "#eef3fc";
-                setTimeout(() => { if(row) row.style.backgroundColor = ""; }, 1500);
-                break;
-            }
-        }
-    }
-    
-    function gerarUrlAgenda(dataStr, turnoG3) {
-        const [dia, mes, ano] = dataStr.split('/');
-        const dataISO = `${ano}${mes}${dia}`;
-        let titulo = `[APERAM] G3 - ${turnoG3 === 'F' ? 'Folga' : `Plantão ${turnoG3}`}`;
-        if(turnoG3 === 'F') {
-            return `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(titulo)}&dates=${dataISO}/${dataISO}&details=${encodeURIComponent("Escala APERAM - Folga")}&sf=true&output=xml`;
-        } else {
-            return `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(titulo)}&dates=${dataISO}T060000Z/${dataISO}T140000Z&details=${encodeURIComponent("Turno APERAM Timóteo")}&sf=true&output=xml`;
-        }
-    }
-    
-    function renderScaleTable() {
-        const tbody = document.getElementById('escalaBody');
-        const feriadosUl = document.getElementById('feriadosList');
-        if(!tbody) return;
-        tbody.innerHTML = '';
-        
-        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-        const feriados = getFeriadosByYear(currentYear);
-        const feriadosMap = new Map();
-        feriados.forEach(f => { feriadosMap.set(`${f.mes}/${f.dia}`, f.nome); });
-        const monthFeriados = [];
-        
-        for(let d = 1; d <= daysInMonth; d++) {
-            const dataObj = new Date(currentYear, currentMonth, d);
-            const diaSemana = weekDays[dataObj.getDay()];
-            const turnos = getTurnoPorData(dataObj);
-            const diaStr = d.toString().padStart(2,'0');
-            const mesStr = (currentMonth+1).toString().padStart(2,'0');
-            const dataFormat = `${diaStr}/${mesStr}/${currentYear}`;
-            const chaveFeriado = `${currentMonth+1}/${diaStr}`;
-            const isFeriado = feriadosMap.has(chaveFeriado);
-            const feriadoNome = isFeriado ? feriadosMap.get(chaveFeriado) : "";
-            if(isFeriado) monthFeriados.push(`${diaStr}/${mesStr} - ${feriadoNome}`);
-            
-            let classeDia = "dia-semana";
-            if(diaSemana === "Sáb") classeDia += " sab";
-            if(diaSemana === "Dom") classeDia += " dom";
-            let feriadoBadge = isFeriado ? `<span class="feriado-marker" title="${feriadoNome}">★</span>` : '';
-            
-            const getTurnoClass = (valor, tipo) => valor === 'F' ? 'turno-folga' : `turno-${tipo}`;
-            const agendaLink = gerarUrlAgenda(dataFormat, turnos.g3);
-            
-            const tr = document.createElement('tr');
-            if(isFeriado) tr.style.background = "#fef7e0";
-            
-            const tdData = document.createElement('td'); tdData.className = "col-data";
-            tdData.innerHTML = `${diaStr}/${mesStr}/${currentYear} ${feriadoBadge}`;
-            const tdDia = document.createElement('td'); tdDia.className = classeDia; tdDia.innerText = diaSemana;
-            const tdG1 = document.createElement('td'); tdG1.className = getTurnoClass(turnos.g1, 'g1'); tdG1.innerText = turnos.g1;
-            const tdG2 = document.createElement('td'); tdG2.className = getTurnoClass(turnos.g2, 'g2'); tdG2.innerText = turnos.g2;
-            const tdG3 = document.createElement('td'); tdG3.className = getTurnoClass(turnos.g3, 'g3'); tdG3.innerText = turnos.g3;
-            const tdG4 = document.createElement('td'); tdG4.className = getTurnoClass(turnos.g4, 'g4'); tdG4.innerText = turnos.g4;
-            const tdAgenda = document.createElement('td');
-            const linkBtn = document.createElement('a'); linkBtn.href = agendaLink; linkBtn.target = "_blank";
-            linkBtn.className = "btn-agenda"; linkBtn.innerHTML = "📅"; linkBtn.title = "Adicionar G3 ao Google Agenda";
-            tdAgenda.appendChild(linkBtn);
-            
-            tr.appendChild(tdData); tr.appendChild(tdDia); tr.appendChild(tdG1); tr.appendChild(tdG2); tr.appendChild(tdG3); tr.appendChild(tdG4); tr.appendChild(tdAgenda);
-            tbody.appendChild(tr);
-        }
-        
-        // Exibir feriados do mês na observação (corrigido: sempre mostrar)
-        if(monthFeriados.length > 0) {
-            feriadosUl.innerHTML = monthFeriados.map(f => `<li>📅 ${f}</li>`).join('');
-        } else {
-            feriadosUl.innerHTML = '<li>✅ Nenhum feriado nacional neste mês.</li>';
-        }
-    }
-    
-    function changeMonth(delta) {
-        let newMonth = currentMonth + delta;
-        let newYear = currentYear;
-        if(newMonth < 0) { newMonth = 11; newYear--; }
-        if(newMonth > 11) { newMonth = 0; newYear++; }
-        if(newYear < 2024) newYear = 2024;
-        if(newYear > 2030) newYear = 2030;
-        if(newYear === 2030 && newMonth > 11) newMonth = 11;
-        if(newYear === 2024 && newMonth < 0) newMonth = 0;
-        currentYear = newYear;
-        currentMonth = newMonth;
-        updateMonthYearLabel();
-        if(currentView === "calendar") renderCalendar();
-        else renderScaleTable();
-    }
-    
-    function setGrupo(grupo) {
-        selectedGrupo = grupo;
-        document.querySelectorAll('.grupo-btn').forEach(btn => {
-            if(btn.getAttribute('data-grupo') === grupo) btn.classList.add('active');
-            else btn.classList.remove('active');
-        });
-        if(currentView === "calendar") renderCalendar();
-    }
-    
-    document.getElementById("prevMonthBtn").addEventListener("click", () => changeMonth(-1));
-    document.getElementById("nextMonthBtn").addEventListener("click", () => changeMonth(1));
-    document.querySelectorAll(".grupo-btn").forEach(btn => {
-        btn.addEventListener("click", () => setGrupo(btn.getAttribute("data-grupo")));
-    });
-    
-    const calendarDiv = document.getElementById("calendarView");
-    const scaleDiv = document.getElementById("scaleView");
-    const viewCalBtn = document.getElementById("viewCalendarBtn");
-    const viewScaleBtn = document.getElementById("viewScaleBtn");
-    
-    viewCalBtn.addEventListener("click", () => {
-        currentView = "calendar";
-        calendarDiv.classList.add("active-view");
-        scaleDiv.classList.remove("active-view");
-        viewCalBtn.classList.add("active");
-        viewScaleBtn.classList.remove("active");
-        renderCalendar();
-    });
-    viewScaleBtn.addEventListener("click", () => {
-        currentView = "scale";
-        calendarDiv.classList.remove("active-view");
-        scaleDiv.classList.add("active-view");
-        viewScaleBtn.classList.add("active");
-        viewCalBtn.classList.remove("active");
-        renderScaleTable();
-    });
-    
-    renderCalendar();
-    renderScaleTable();
-    scaleDiv.classList.remove("active-view");
-    calendarDiv.classList.add("active-view");
-</script>
 </body>
 </html>
-```
