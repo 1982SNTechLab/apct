@@ -19,12 +19,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 8px 6px 20px 6px;
+            padding: 12px 8px 30px 8px;
             min-height: 100vh;
         }
 
         .app-container {
-            max-width: 480px;
+            max-width: 480px; /* Padrão para Celular */
             width: 100%;
             background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(10px);
@@ -33,7 +33,38 @@
             overflow: hidden;
             transition: all 0.2s;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            margin-bottom: 60px; /* Espaço para o botão flutuante não cobrir o rodapé no mobile */
+            margin-bottom: 60px;
+        }
+
+        /* --- MELHORIA PARA COMPUTADORES/TABLETS --- */
+        @media (min-width: 768px) {
+            body {
+                padding: 40px 20px; /* Mais espaço nas bordas no PC */
+            }
+            .app-container {
+                max-width: 700px; /* Expande um pouco no PC para melhor leitura */
+            }
+            .calendar-day {
+                min-height: 65px !important; /* Dias mais altos no PC */
+                font-size: 0.85rem !important;
+            }
+            .day-number {
+                font-size: 0.9rem !important;
+            }
+            .turno-status {
+                font-size: 0.6rem !important;
+                padding: 3px 0 !important;
+            }
+            .escala-table {
+                font-size: 0.85rem !important; /* Tabela maior no PC */
+            }
+            .escala-table th, .escala-table td {
+                padding: 10px 6px !important; /* Células mais espaçosas */
+            }
+            .btn-doacao {
+                font-size: 0.7rem !important;
+                padding: 12px 20px !important;
+            }
         }
 
         .header {
@@ -159,12 +190,8 @@
             align-items: center;
             justify-content: center;
         }
-        .nav-btn:first-child {
-            border-right: 1px solid #eeeeee;
-        }
-        .nav-btn:last-child {
-            border-left: 1px solid #eeeeee;
-        }
+        .nav-btn:first-child { border-right: 1px solid #eeeeee; }
+        .nav-btn:last-child { border-left: 1px solid #eeeeee; }
         .nav-btn:active { background: #f5f5f5; }
         
         .month-year {
@@ -174,6 +201,11 @@
             padding: 0 8px;
             text-align: center;
             min-width: 85px;
+            cursor: pointer; /* Estilo adicionado para indicar clique */
+            transition: opacity 0.2s;
+        }
+        .month-year:hover {
+            opacity: 0.7;
         }
         
         .view-toggle {
@@ -205,9 +237,8 @@
             display: none;
             background: #ffffff;
         }
-        .calendar-month-view.active-view {
-            display: block;
-        }
+        .calendar-month-view.active-view { display: block; }
+        
         .weekdays {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
@@ -222,12 +253,12 @@
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 3px;
+            gap: 4px;
         }
         .calendar-day {
             background: #ffffff;
-            border-radius: 6px;
-            padding: 4px 1px;
+            border-radius: 8px;
+            padding: 4px 2px;
             text-align: center;
             font-size: 0.7rem;
             font-weight: 600;
@@ -235,7 +266,7 @@
             transition: all 0.1s;
             cursor: pointer;
             border: 1px solid #e8e8e8;
-            min-height: 48px;
+            min-height: 52px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -249,7 +280,7 @@
         }
         .calendar-day.today {
             border: 2px solid #501975;
-            box-shadow: 0 0 4px rgba(80, 25, 117, 0.2);
+            box-shadow: 0 0 6px rgba(80, 25, 117, 0.3);
         }
         .day-number {
             font-size: 0.75rem;
@@ -261,7 +292,7 @@
         .turno-status {
             font-size: 0.5rem;
             font-weight: 700;
-            padding: 1px 0;
+            padding: 2px 0;
             border-radius: 4px;
             display: block;
             width: 95%;
@@ -281,7 +312,7 @@
             background: #fef08a;
             color: #854d0e;
             font-size: 0.45rem;
-            padding: 0 1px;
+            padding: 0 2px;
             border-radius: 3px;
             margin: 1px auto;
             font-weight: 700;
@@ -295,9 +326,8 @@
             display: none;
             background: #ffffff;
         }
-        .escala-view.active-view {
-            display: block;
-        }
+        .escala-view.active-view { display: block; }
+        
         .escala-table-wrapper {
             overflow-x: auto;
             padding: 4px;
@@ -312,13 +342,13 @@
             background: #501975;
             color: #ffffff;
             font-weight: 700;
-            padding: 8px 2px;
+            padding: 8px 4px;
             font-size: 0.65rem;
             text-transform: uppercase;
             white-space: nowrap;
         }
         .escala-table td {
-            padding: 6px 2px;
+            padding: 6px 4px;
             border-bottom: 1px solid #f0f0f0;
             text-align: center;
             font-weight: 600;
@@ -329,7 +359,7 @@
             text-align: left !important;
             font-weight: 700 !important;
             color: #501975;
-            padding-left: 4px !important;
+            padding-left: 6px !important;
             white-space: nowrap;
         }
         .dia-semana { font-weight: 600; white-space: nowrap; }
@@ -358,7 +388,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 1px 4px;
+            padding: 2px 6px;
             border-radius: 8px;
             font-size: 0.6rem;
             font-weight: 700;
@@ -368,7 +398,7 @@
             border: 1px solid #df4a16;
             white-space: nowrap;
         }
-        .btn-agenda:active { background: #df4a16; color: #ffffff; }
+        .btn-agenda:hover, .btn-agenda:active { background: #df4a16; color: #ffffff; }
 
         .observ-box {
             background: #fbfbfb;
@@ -389,25 +419,23 @@
             font-size: 0.65rem;
             line-height: 1.3;
         }
-        .observ-box li {
-            margin: 3px 0;
-        }
+        .observ-box li { margin: 3px 0; }
+        
         .footer-note {
             text-align: center;
             font-size: 0.55rem;
             color: rgba(60, 60, 60, 1.0);
             padding: 10px 8px;
-            background: rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.05);
         }
 
-        /* --- NOVO: Estilização do Botão de Doação --- */
+        /* --- BOTÃO FLUTUANTE MODIFICADO --- */
         .btn-doacao {
             position: fixed;
             bottom: 16px;
             right: 16px;
             background: linear-gradient(135deg, #df4a16 0%, #501975 100%);
             color: #ffffff;
-            text-decoration: none;
             font-size: 0.5rem;
             font-weight: 700;
             padding: 10px 14px;
@@ -421,19 +449,170 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            cursor: pointer;
         }
-
         .btn-doacao:hover, .btn-doacao:active {
             transform: scale(1.05);
             box-shadow: 0 6px 20px rgba(223, 74, 22, 0.4);
         }
+        .btn-doacao span { font-size: 0.9rem; }
 
-        .btn-doacao span {
+        /* --- ESTILOS DO NOVO MODAL DE SELEÇÃO --- */
+        .modal-backdrop {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-backdrop.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 18px;
+            width: 90%;
+            max-width: 320px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .modal-backdrop.show .modal-content {
+            transform: scale(1);
+        }
+        .modal-title {
             font-size: 0.9rem;
+            font-weight: 700;
+            color: #501975;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        .select-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .select-custom {
+            flex: 1;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #dcdcdc;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #444444;
+            outline: none;
+            background-color: #f9f9f9;
+        }
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .modal-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        .btn-confirmar {
+            background: linear-gradient(90deg, #501975 0%, #df4a16 100%);
+            color: #ffffff;
+        }
+        .btn-cancelar {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        /* --- NOVO ESTILO: MODAL DO PIX --- */
+        .pix-box-area {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px dashed #df4a16;
+            margin-bottom: 15px;
+        }
+        .pix-instructions {
+            font-size: 0.65rem;
+            color: #555;
+            margin-bottom: 10px;
+            line-height: 1.3;
+            text-align: left;
+        }
+        .pix-key-display {
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: #ffffff;
+            font-family: monospace;
+            font-size: 0.6rem;
+            word-break: break-all;
+            max-height: 70px;
+            overflow-y: auto;
+            color: #333;
+            text-align: left;
+            margin-bottom: 10px;
+        }
+        .btn-pix-copy {
+            background: #32bcad;
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background 0.2s;
+        }
+        .btn-pix-copy:hover {
+            background: #27968a;
         }
     </style>
 </head>
 <body>
+
+<div id="dateSelectorModal" class="modal-backdrop">
+    <div class="modal-content">
+        <div class="modal-title">Selecionar Período</div>
+        <div class="select-group">
+            <select id="modalMonthSelect" class="select-custom"></select>
+            <select id="modalYearSelect" class="select-custom"></select>
+        </div>
+        <div class="modal-actions">
+            <button id="modalCancelBtn" class="modal-btn btn-cancelar">Cancelar</button>
+            <button id="modalConfirmBtn" class="modal-btn btn-confirmar">Confirmar</button>
+        </div>
+    </div>
+</div>
+
+<div id="pixDonationModal" class="modal-backdrop">
+    <div class="modal-content">
+        <div class="modal-title">Apoiar o Projeto</div>
+        <div class="pix-box-area">
+            <p class="pix-instructions">Use a opção <strong>Pix Copia e Cola</strong> no aplicativo do seu banco para fazer sua contribuição:</p>
+            <div class="pix-key-display" id="pixCodeText">00020126420014br.gov.bcb.pix0111047785386250205APP015204000053039865802BR5917Sergio Nascimento6009Sao Paulo62100506TABELA63041F16</div>
+            <button class="btn-pix-copy" id="btnCopyPix" onclick="copyPixCode()">Copiar Código Pix</button>
+        </div>
+        <div class="modal-actions">
+            <button id="modalClosePixBtn" class="modal-btn btn-cancelar" style="width: 100%;">Fechar</button>
+        </div>
+    </div>
+</div>
+
 <div class="app-container">
     <div class="header">
         <div class="logo-text"> CALENDARIO </div>
@@ -456,7 +635,7 @@
     <div class="calendar-nav">
         <div class="nav-controls">
             <button class="nav-btn" id="prevMonthBtn">◀</button>
-            <span class="month-year" id="monthYearLabel">Maio 2026</span>
+            <span class="month-year" id="monthYearLabel" title="Clique para escolher o mês">Maio 2026</span>
             <button class="nav-btn" id="nextMonthBtn">▶</button>
         </div>
         <div class="view-toggle">
@@ -504,9 +683,9 @@
     </div>
 </div>
 
-<a href="https://link.picpay.com/p/17799426516a17c4fbbcf03" target="_blank" class="btn-doacao">
+<button id="openPixBtn" class="btn-doacao">
     <span>❤️</span> Apoiar
-</a>
+</button>
 
 <script>
     const escalaBase = [
@@ -610,7 +789,7 @@
     }
     
     function renderCalendar() {
-        if(currentYear > 2030) currentYear = 2030;
+        if(currentYear > 2050) currentYear = 2050;
         if(currentYear < 2024) currentYear = 2024;
         updateMonthYearLabel();
         
@@ -691,7 +870,7 @@
     function gerarUrlAgenda(dataStr, turnoG3) {
         const [dia, mes, ano] = dataStr.split('/');
         const dataISO = `${ano}${mes}${dia}`;
-        let titulo = `[APERAM] G3 - ${turnoG3 === 'F' ? 'Folga' : `Plantão ${turnoG3}`}`;
+        let titulo = `[FOLGA] G3 - ${turnoG3 === 'F' ? 'Folga' : `Plantão ${turnoG3}`}`;
         if(turnoG3 === 'F') {
             return `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(titulo)}&dates=${dataISO}/${dataISO}&details=${encodeURIComponent("Escala APERAM - Folga")}&sf=true&output=xml`;
         } else {
@@ -799,7 +978,93 @@
         viewCalBtn.classList.remove("active");
         renderScaleTable();
     });
+
+    // --- CONTROLE LOGICO DO MODAL DE SELEÇÃO DE DATA ---
+    const modalBox = document.getElementById("dateSelectorModal");
+    const clickLabel = document.getElementById("monthYearLabel");
+    const modalSelectMonth = document.getElementById("modalMonthSelect");
+    const modalSelectYear = document.getElementById("modalYearSelect");
+
+    function setupModalSelectors() {
+        modalSelectMonth.innerHTML = "";
+        monthNames.forEach((name, index) => {
+            const opt = document.createElement("option");
+            opt.value = index;
+            opt.innerText = name;
+            modalSelectMonth.appendChild(opt);
+        });
+
+        modalSelectYear.innerHTML = "";
+        for (let y = 2024; y <= 2030; y++) {
+            const opt = document.createElement("option");
+            opt.value = y;
+            opt.innerText = y;
+            modalSelectYear.appendChild(opt);
+        }
+    }
+
+    clickLabel.addEventListener("click", () => {
+        modalSelectMonth.value = currentMonth;
+        modalSelectYear.value = currentYear;
+        modalBox.classList.add("show");
+    });
+
+    document.getElementById("modalCancelBtn").addEventListener("click", () => modalBox.classList.remove("show"));
     
+    modalBox.addEventListener("click", (e) => {
+        if (e.target === modalBox) modalBox.classList.remove("show");
+    });
+
+    document.getElementById("modalConfirmBtn").addEventListener("click", () => {
+        currentMonth = parseInt(modalSelectMonth.value);
+        currentYear = parseInt(modalSelectYear.value);
+        
+        modalBox.classList.remove("show");
+        updateMonthYearLabel();
+
+        if (currentView === "calendar") {
+            renderCalendar();
+        } else {
+            renderScaleTable();
+        }
+    });
+
+    // --- CONTROLE LOGICO DO NOVO MODAL DO PIX ---
+    const pixModal = document.getElementById("pixDonationModal");
+    const openPixBtn = document.getElementById("openPixBtn");
+    const closePixBtn = document.getElementById("modalClosePixBtn");
+
+    openPixBtn.addEventListener("click", () => {
+        pixModal.classList.add("show");
+    });
+
+    closePixBtn.addEventListener("click", () => {
+        pixModal.classList.remove("show");
+    });
+
+    pixModal.addEventListener("click", (e) => {
+        if (e.target === pixModal) pixModal.classList.remove("show");
+    });
+
+    function copyPixCode() {
+        const pixText = document.getElementById("pixCodeText").innerText;
+        const btnCopy = document.getElementById("btnCopyPix");
+        
+        navigator.clipboard.writeText(pixText).then(function() {
+            btnCopy.innerText = "✓ Copiado!";
+            btnCopy.style.background = "#2e7d32";
+            
+            setTimeout(() => {
+                btnCopy.innerText = "Copiar Código Pix";
+                btnCopy.style.background = "#32bcad";
+            }, 2000);
+        }, function(err) {
+            alert("Erro ao copiar automaticamente. Selecione o código manualmente na caixa.");
+        });
+    }
+
+    // Configura e inicia as funções padrões do app
+    setupModalSelectors();
     renderCalendar();
     renderScaleTable();
     scaleDiv.classList.remove("active-view");
