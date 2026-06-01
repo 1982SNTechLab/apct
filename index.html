@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>TURNO FIXO | Escala de Trabalho</title>
+    <title>CALENDARIO | Turno Fixo</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -623,7 +623,7 @@
     </div>
 
     <div class="grupo-selector">
-        <span>👥 Grupo:</span>
+        <span>👥 FOLGA  - →⁠_⁠→</span>
         <div class="grupo-buttons">
             <button class="grupo-btn" data-grupo="G1">G1</button>
             <button class="grupo-btn" data-grupo="G2">G2</button>
@@ -936,7 +936,7 @@
         if(newMonth < 0) { newMonth = 11; newYear--; }
         if(newMonth > 11) { newMonth = 0; newYear++; }
         if(newYear < 2024) newYear = 2024;
-        if(newYear > 2030) newYear = 2030;
+        if(newYear > 2050) newYear = 2050;
         currentYear = newYear;
         currentMonth = newMonth;
         updateMonthYearLabel();
@@ -997,7 +997,7 @@
         });
 
         modalSelectYear.innerHTML = "";
-        for (let y = 2024; y <= 2030; y++) {
+        for (let y = 2024; y <= 2050; y++) {
             const opt = document.createElement("option");
             opt.value = y;
             opt.innerText = y;
