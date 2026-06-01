@@ -771,8 +771,10 @@
         });
     }
     
-    let currentYear = 2026;
-    let currentMonth = 4;
+    // --- ALTERAÇÃO AQUI: CAPTURA DINÂMICA DA DATA DO DISPOSITIVO DO USUÁRIO ---
+    const dataDispositivo = new Date();
+    let currentYear = dataDispositivo.getFullYear();
+    let currentMonth = dataDispositivo.getMonth();
     let currentView = "calendar";
     let selectedGrupo = "G3";
     
