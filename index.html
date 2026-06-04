@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>CALENDARIO | Turno Fixo</title>
+    <title>CALENDARIO | TURNO FIXO</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -33,9 +33,9 @@
             overflow: hidden;
             transition: all 0.2s;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-top: calc(20px + env(safe-area-inset-top)); 
             margin-bottom: 60px;
-        }
-
+}
         /* --- MELHORIA PARA COMPUTADORES/TABLETS --- */
         @media (min-width: 768px) {
             body {
@@ -623,8 +623,9 @@
     </div>
 
     <div class="grupo-selector">
-        <span>👥 FOLGA  - →⁠_⁠→</span>
+        <span>ㅤㅤㅤㅤㅤㅤ</span>
         <div class="grupo-buttons">
+        <span>🌴 FOLGA →_→ㅤ</span>
             <button class="grupo-btn" data-grupo="G1">G1</button>
             <button class="grupo-btn" data-grupo="G2">G2</button>
             <button class="grupo-btn active" data-grupo="G3">G3</button>
@@ -872,11 +873,11 @@
     function gerarUrlAgenda(dataStr, turnoG3) {
         const [dia, mes, ano] = dataStr.split('/');
         const dataISO = `${ano}${mes}${dia}`;
-        let titulo = `[FOLGA] G3 - ${turnoG3 === 'F' ? 'Folga' : `Plantão ${turnoG3}`}`;
+        let titulo = ` - ${turnoG3 === 'F' ? 'Folga' : ` ${turnoG3}`}`;
         if(turnoG3 === 'F') {
-            return `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(titulo)}&dates=${dataISO}/${dataISO}&details=${encodeURIComponent("Escala APERAM - Folga")}&sf=true&output=xml`;
+            return `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(titulo)}&dates=${dataISO}/${dataISO}&details=${encodeURIComponent("Qual o Seu Compromisso")}&sf=true&output=xml`;
         } else {
-            return `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(titulo)}&dates=${dataISO}T060000Z/${dataISO}T140000Z&details=${encodeURIComponent("Turno APERAM Timóteo")}&sf=true&output=xml`;
+            return `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(titulo)}&dates=${dataISO}T060000Z/${dataISO}T140000Z&details=${encodeURIComponent("Qual o Seu Compromisso")}&sf=true&output=xml`;
         }
     }
     
@@ -936,7 +937,7 @@
         if(newMonth < 0) { newMonth = 11; newYear--; }
         if(newMonth > 11) { newMonth = 0; newYear++; }
         if(newYear < 2024) newYear = 2024;
-        if(newYear > 2050) newYear = 2050;
+        if(newYear > 2030) newYear = 2030;
         currentYear = newYear;
         currentMonth = newMonth;
         updateMonthYearLabel();
@@ -997,7 +998,7 @@
         });
 
         modalSelectYear.innerHTML = "";
-        for (let y = 2024; y <= 2050; y++) {
+        for (let y = 2024; y <= 2030; y++) {
             const opt = document.createElement("option");
             opt.value = y;
             opt.innerText = y;
