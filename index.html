@@ -13,14 +13,152 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* --- CONFIGURAÇÃO DE TEMAS (VARIÁVEIS DE COR) --- */
+        :root {
+            --bg-body: linear-gradient(135deg, #501975 0%, #df4a16 100%);
+            --bg-header: linear-gradient(135deg, #501975 0%, #df4a16 100%);
+            --color-primary: #501975;
+            --color-secondary: #df4a16;
+            --btn-active: linear-gradient(90deg, #501975 0%, #df4a16 100%);
+            --btn-view-active: linear-gradient(90deg, #df4a16 0%, #501975 100%);
+        }
+
+        /* Tema Escuro */
+        [data-theme="dark"] {
+            --bg-body: linear-gradient(135deg, #1e1e24 0%, #333333 100%);
+            --bg-header: linear-gradient(135deg, #2d2d34 0%, #4f4f56 100%);
+            --color-primary: #2d2d34;
+            --color-secondary: #6e6e77;
+            --btn-active: linear-gradient(90deg, #4f4f56 0%, #2d2d34 100%);
+            --btn-view-active: linear-gradient(90deg, #2d2d34 0%, #4f4f56 100%);
+        }
+
+        /* Tema Azul */
+        [data-theme="blue"] {
+            --bg-body: linear-gradient(135deg, #0f172a 0%, #2563eb 100%);
+            --bg-header: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            --color-primary: #1e3a8a;
+            --color-secondary: #2563eb;
+            --btn-active: linear-gradient(90deg, #1e3a8a 0%, #2563eb 100%);
+            --btn-view-active: linear-gradient(90deg, #2563eb 0%, #1e3a8a 100%);
+        }
+
+        /* Tema Pastel Rosa */
+        [data-theme="pink"] {
+            --bg-body: linear-gradient(135deg, #fbcfe8 0%, #f472b6 100%);
+            --bg-header: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
+            --color-primary: #db2777;
+            --color-secondary: #ec4899;
+            --btn-active: linear-gradient(90deg, #db2777 0%, #f472b6 100%);
+            --btn-view-active: linear-gradient(90deg, #f472b6 0%, #db2777 100%);
+        }
+
+        /* Tema Tons Cinzentos */
+        [data-theme="gray"] {
+            --bg-body: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
+            --bg-header: linear-gradient(135deg, #475569 0%, #64748b 100%);
+            --color-primary: #334155;
+            --color-secondary: #475569;
+            --btn-active: linear-gradient(90deg, #334155 0%, #64748b 100%);
+            --btn-view-active: linear-gradient(90deg, #64748b 0%, #334155 100%);
+        }
+
         body {
-            background: linear-gradient(135deg, #501975 0%, #df4a16 100%);
+            background: var(--bg-body);
             font-family: 'Inter', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 12px 8px 30px 8px;
             min-height: 100vh;
+        }
+
+        /* --- ESTILOS DO NOVO MENU SUPERIOR ESQUERDO --- */
+        .menu-toggle {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            width: 36px;
+            height: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 10005;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(5px);
+        }
+        .menu-toggle .bar {
+            width: 100%;
+            height: 3px;
+            background-color: #ffffff;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        /* Sidebar do Menu */
+        .sidebar-menu {
+            position: fixed;
+            top: 0;
+            left: -260px;
+            width: 260px;
+            height: 100%;
+            background: #ffffff;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+            z-index: 10004;
+            transition: left 0.3s ease;
+            padding: 70px 20px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .sidebar-menu.open {
+            left: 0;
+        }
+        .sidebar-menu h4 {
+            font-size: 0.85rem;
+            color: #333333;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 8px;
+            margin-bottom: 5px;
+        }
+        .theme-btn {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dcdcdc;
+            border-radius: 8px;
+            background: #f9f9f9;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #444444;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+            text-transform: uppercase;
+        }
+        .theme-btn:active {
+            transform: scale(0.98);
+        }
+        .theme-btn.active-theme {
+            background: var(--btn-active);
+            color: #ffffff;
+            border-color: transparent;
+        }
+        .sidebar-backdrop {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 10003;
+            display: none;
+        }
+        .sidebar-backdrop.show {
+            display: block;
         }
 
         .app-container {
@@ -35,7 +173,8 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             margin-top: calc(20px + env(safe-area-inset-top)); 
             margin-bottom: 60px;
-}
+        }
+
         /* --- MELHORIA PARA COMPUTADORES/TABLETS --- */
         @media (min-width: 768px) {
             body {
@@ -68,7 +207,7 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #501975 0%, #df4a16 100%);
+            background: var(--bg-header);
             padding: 16px 12px;
             text-align: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.3);
@@ -151,7 +290,7 @@
             justify-content: center;
         }
         .grupo-btn.active {
-            background: linear-gradient(90deg, #501975 0%, #df4a16 100%);
+            background: var(--btn-active);
             border-color: transparent;
             color: #ffffff;
             box-shadow: 0 4px 10px rgba(223, 74, 22, 0.3);
@@ -179,7 +318,7 @@
         .nav-btn {
             background: transparent;
             border: none;
-            color: #df4a16;
+            color: var(--color-secondary);
             font-size: 0.75rem;
             font-weight: bold;
             width: 26px;
@@ -197,11 +336,11 @@
         .month-year {
             font-weight: 700;
             font-size: 0.8rem;
-            color: #df4a16;
+            color: var(--color-secondary);
             padding: 0 8px;
             text-align: center;
             min-width: 85px;
-            cursor: pointer; /* Estilo adicionado para indicar clique */
+            cursor: pointer; 
             transition: opacity 0.2s;
         }
         .month-year:hover {
@@ -227,7 +366,7 @@
             transition: all 0.2s;
         }
         .view-btn.active {
-            background: linear-gradient(90deg, #df4a16 0%, #501975 100%);
+            background: var(--btn-view-active);
             color: #ffffff;
             font-weight: 700;
         }
@@ -279,7 +418,7 @@
             min-height: auto;
         }
         .calendar-day.today {
-            border: 2px solid #501975;
+            border: 2px solid var(--color-primary);
             box-shadow: 0 0 6px rgba(80, 25, 117, 0.3);
         }
         .day-number {
@@ -301,7 +440,7 @@
             text-transform: uppercase;
         }
         .turno-trabalho {
-            background: linear-gradient(135deg, #df4a16 0%, #501975 100%);
+            background: var(--btn-view-active);
             color: #ffffff;
         }
         .turno-folga {
@@ -337,9 +476,10 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 0.65rem;
+            table-layout: fixed; /* Garante o respeito às larguras definidas abaixo */
         }
         .escala-table th {
-            background: #501975;
+            background: var(--color-primary);
             color: #ffffff;
             font-weight: 700;
             padding: 8px 4px;
@@ -355,16 +495,22 @@
             color: #444444;
             white-space: nowrap;
         }
+
+        /* Definição de proporção exata das colunas */
+        .escala-table th:nth-child(1), .escala-table td:nth-child(1) { width: 24%; } /* DATA */
+        .escala-table th:nth-child(2), .escala-table td:nth-child(2) { width: 16%; } /* DIA */
+        .escala-table th:nth-child(n+3), .escala-table td:nth-child(n+3) { width: 15%; } /* G1, G2, G3, G4 */
+
         .col-data {
             text-align: left !important;
             font-weight: 700 !important;
-            color: #501975;
+            color: var(--color-primary);
             padding-left: 6px !important;
             white-space: nowrap;
         }
         .dia-semana { font-weight: 600; white-space: nowrap; }
-        .sab { color: #501975 !important; }
-        .dom { color: #df4a16 !important; font-weight: 700; }
+        .sab { color: var(--color-primary) !important; }
+        .dom { color: var(--color-secondary) !important; font-weight: 700; }
         
         .feriado-marker {
             background: #fef08a;
@@ -377,35 +523,36 @@
             display: inline-block;
         }
         
-        .turno-g1 { color: #df4a16; font-weight: 700; }
-        .turno-g2 { color: #c2410c; font-weight: 700; }
-        .turno-g3 { color: #501975; font-weight: 700; }
-        .turno-g4 { color: #6b21a8; font-weight: 700; }
-        .turno-folga-tab { color: #718096; font-weight: 500; }
+        /* Fontes dos grupos aumentadas com destaque */
+        .turno-g1 { color: #df4a16; font-weight: 700; font-size: 1.35em; }
+        .turno-g2 { color: #c2410c; font-weight: 700; font-size: 1.35em; }
+        .turno-g3 { color: #501975; font-weight: 700; font-size: 1.35em; }
+        .turno-g4 { color: #6b21a8; font-weight: 700; font-size: 1.35em; }
+        .turno-folga-tab { color: #718096; font-weight: 600; font-size: 1.25em; }
 
         .btn-agenda {
             background: #ffffff;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 2px 6px;
+            padding: 4px 10px;
             border-radius: 8px;
-            font-size: 0.6rem;
+            font-size: 0.65rem;
             font-weight: 700;
             text-decoration: none;
             transition: 0.2s;
-            color: #df4a16;
-            border: 1px solid #df4a16;
+            color: var(--color-secondary);
+            border: 1px solid var(--color-secondary);
             white-space: nowrap;
         }
-        .btn-agenda:hover, .btn-agenda:active { background: #df4a16; color: #ffffff; }
+        .btn-agenda:hover, .btn-agenda:active { background: var(--color-secondary); color: #ffffff; }
 
         .observ-box {
             background: #fbfbfb;
             margin: 8px 6px;
             padding: 8px 12px;
             border-radius: 12px;
-            border-left: 4px solid #df4a16;
+            border-left: 4px solid var(--color-secondary);
         }
         .observ-box h3 {
             font-size: 0.7rem;
@@ -434,7 +581,7 @@
             position: fixed;
             bottom: 16px;
             right: 16px;
-            background: linear-gradient(135deg, #df4a16 0%, #501975 100%);
+            background: var(--btn-view-active);
             color: #ffffff;
             font-size: 0.5rem;
             font-weight: 700;
@@ -492,7 +639,7 @@
         .modal-title {
             font-size: 0.9rem;
             font-weight: 700;
-            color: #501975;
+            color: var(--color-primary);
             margin-bottom: 15px;
             text-transform: uppercase;
         }
@@ -528,7 +675,7 @@
             text-transform: uppercase;
         }
         .btn-confirmar {
-            background: linear-gradient(90deg, #501975 0%, #df4a16 100%);
+            background: var(--btn-active);
             color: #ffffff;
         }
         .btn-cancelar {
@@ -541,7 +688,7 @@
             background: #f8fafc;
             padding: 12px;
             border-radius: 12px;
-            border: 1px dashed #df4a16;
+            border: 1px dashed var(--color-secondary);
             margin-bottom: 15px;
         }
         .pix-instructions {
@@ -585,6 +732,25 @@
 </head>
 <body>
 
+<!-- BOTÃO DO MENU SUPERIOR ESQUERDO COM DOIS TRAÇOS -->
+<div class="menu-toggle" id="menuToggle">
+    <div class="bar"></div>
+    <div class="bar"></div>
+</div>
+
+<!-- BACKDROP DO MENU SIDEBAR -->
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<!-- SIDEBAR CONTENDO AS OPÇÕES DE MUDANÇA DE CORES -->
+<div class="sidebar-menu" id="sidebarMenu">
+    <h4>Paleta de Cores</h4>
+    <button class="theme-btn active-theme" data-theme-id="default">Gradiente Original</button>
+    <button class="theme-btn" data-theme-id="dark">Tema Escuro</button>
+    <button class="theme-btn" data-theme-id="blue">Azul Tecnológico</button>
+    <button class="theme-btn" data-theme-id="pink">Pastel Rosa</button>
+    <button class="theme-btn" data-theme-id="gray">Tons Cinzentos</button>
+</div>
+
 <div id="dateSelectorModal" class="modal-backdrop">
     <div class="modal-content">
         <div class="modal-title">Selecionar Período</div>
@@ -609,6 +775,20 @@
         </div>
         <div class="modal-actions">
             <button id="modalClosePixBtn" class="modal-btn btn-cancelar" style="width: 100%;">Fechar</button>
+        </div>
+    </div>
+</div>
+
+<!-- NOVO MODAL: MENU DE SELEÇÃO AO CLICAR NO DIA -->
+<div id="agendaPromptModal" class="modal-backdrop">
+    <div class="modal-content">
+        <div class="modal-title">O que deseja fazer?</div>
+        <p style="font-size: 0.75rem; color: #555555; margin-bottom: 20px; line-height: 1.4; text-align: center;">
+            Deseja abrir o Google Calendário para gerenciar seus compromissos ou prefere visualizar os detalhes da escala na tabela?
+        </p>
+        <div class="modal-actions">
+            <button id="btnAgendaVisualizarEscala" class="modal-btn btn-cancelar" style="font-size: 0.65rem;">Ver Escala</button>
+            <button id="btnAgendaConfirmarGo" class="modal-btn btn-confirmar" style="font-size: 0.65rem;">Abrir Agenda</button>
         </div>
     </div>
 </div>
@@ -651,7 +831,22 @@
         </div>
         <div id="calendarGrid" class="calendar-grid"></div>
         <div class="observ-box" style="margin-top: 10px;">
-            <h3>📌 Legenda</h3>
+            
+            <!-- LINHA COM FERIADOS DO MÊS À ESQUERDA E BOTÃO AGENDA À DIREITA -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding-bottom: 6px; border-bottom: 1px dashed #dcdcdc;">
+                <h3 style="margin-bottom: 0;">🎉 Feriados do Mês</h3>
+                <a href="https://calendar.google.com/" target="_blank" class="btn-agenda">🗓️ Agenda</a>
+            </div>
+
+            <div id="feriadosMesList" style="margin-bottom: 10px;">
+                <!-- Lista de feriados injetada via JavaScript -->
+            </div>
+
+            <!-- LINHA DA LEGENDA -->
+            <div style="margin-bottom: 6px;">
+                <h3 style="margin-bottom: 4px;">📌 Legenda</h3>
+            </div>
+            
             <ul style="list-style-type: none;">
                 <li><span style="color: #df4a16; font-weight: bold;">■</span> Gradiente: Trabalho</li>
                 <li><span style="color: #718096; font-weight: bold;">■</span> Cinza claro: Folga do grupo</li>
@@ -671,7 +866,6 @@
                         <th>G2</th>
                         <th>G3</th>
                         <th>G4</th>
-                        <th>AGENDA</th>
                     </tr>
                 </thead>
                 <tbody id="escalaBody"></tbody>
@@ -709,6 +903,9 @@
     ];
     
     const refDate = new Date(2026, 4, 16);
+    
+    // Armazena temporariamente a data clicada para o menu interativo
+    let pendingClickDate = { d: null, m: null, y: null };
     
     function getTurnoPorData(date) {
         const diffTime = date - refDate;
@@ -772,7 +969,6 @@
         });
     }
     
-    // --- ALTERAÇÃO AQUI: CAPTURA DINÂMICA DA DATA DO DISPOSITIVO DO USUÁRIO ---
     const dataDispositivo = new Date();
     let currentYear = dataDispositivo.getFullYear();
     let currentMonth = dataDispositivo.getMonth();
@@ -839,19 +1035,35 @@
                         ${isFeriado ? `<div class="feriado-badge" title="${feriadoNome}">${feriadoNome.substring(0, 5)}</div>` : ''}
                     `;
                     
+                    // Modificado o toque para abrir o menu de escolhas (Prompt Modal)
                     dayDiv.addEventListener("click", (function(d, m, y) {
                         return function() {
-                            if(currentView === "calendar") {
-                                document.getElementById("viewScaleBtn").click();
-                                setTimeout(() => scrollToDate(d, m, y), 80);
-                            } else {
-                                scrollToDate(d, m, y);
-                            }
+                            pendingClickDate = { d, m, y };
+                            document.getElementById("agendaPromptModal").classList.add("show");
                         };
                     })(dayNum, currentMonth, currentYear));
                     grid.appendChild(dayDiv);
                 }
                 cellIndex++;
+            }
+        }
+
+        // Atualização dos Feriados do Mês
+        const feriadosDoMes = feriados.filter(f => f.mes === currentMonth + 1);
+        const feriadosContainer = document.getElementById("feriadosMesList");
+        
+        if (feriadosContainer) {
+            if (feriadosDoMes.length > 0) {
+                let html = '<ul style="list-style-type: none;">';
+                feriadosDoMes.sort((a,b) => a.dia - b.dia).forEach(f => {
+                    const diaFormatado = f.dia.toString().padStart(2, '0');
+                    const mesFormatado = f.mes.toString().padStart(2, '0');
+                    html += `<li><span style="color:#df4a16; font-weight:bold;">${diaFormatado}/${mesFormatado}</span> - ${f.nome}</li>`;
+                });
+                html += '</ul>';
+                feriadosContainer.innerHTML = html;
+            } else {
+                feriadosContainer.innerHTML = '<ul style="list-style-type: none;"><li><span style="color: #666;">Nenhum feriado neste mês.</span></li></ul>';
             }
         }
     }
@@ -867,17 +1079,6 @@
                 setTimeout(() => { if(row) row.style.backgroundColor = ""; }, 1500);
                 break;
             }
-        }
-    }
-    
-    function gerarUrlAgenda(dataStr, turnoG3) {
-        const [dia, mes, ano] = dataStr.split('/');
-        const dataISO = `${ano}${mes}${dia}`;
-        let titulo = ` - ${turnoG3 === 'F' ? 'Folga' : ` ${turnoG3}`}`;
-        if(turnoG3 === 'F') {
-            return `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(titulo)}&dates=${dataISO}/${dataISO}&details=${encodeURIComponent("Qual o Seu Compromisso")}&sf=true&output=xml`;
-        } else {
-            return `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(titulo)}&dates=${dataISO}T060000Z/${dataISO}T140000Z&details=${encodeURIComponent("Qual o Seu Compromisso")}&sf=true&output=xml`;
         }
     }
     
@@ -908,7 +1109,6 @@
             let feriadoBadge = isFeriado ? `<span class="feriado-marker" title="${feriadoNome}">★</span>` : '';
             
             const getTurnoClass = (valor, tipo) => valor === 'F' ? 'turno-folga-tab' : `turno-${tipo}`;
-            const agendaLink = gerarUrlAgenda(dataFormat, turnos.g3);
             
             const tr = document.createElement('tr');
             if(isFeriado) tr.style.background = "#fffbeb";
@@ -921,12 +1121,7 @@
             const tdG3 = document.createElement('td'); tdG3.className = getTurnoClass(turnos.g3, 'g3'); tdG3.innerText = turnos.g3;
             const tdG4 = document.createElement('td'); tdG4.className = getTurnoClass(turnos.g4, 'g4'); tdG4.innerText = turnos.g4;
             
-            const tdAgenda = document.createElement('td');
-            const linkBtn = document.createElement('a'); linkBtn.href = agendaLink; linkBtn.target = "_blank";
-            linkBtn.className = "btn-agenda"; linkBtn.innerText = "Agenda";
-            tdAgenda.appendChild(linkBtn);
-            
-            tr.appendChild(tdData); tr.appendChild(tdDia); tr.appendChild(tdG1); tr.appendChild(tdG2); tr.appendChild(tdG3); tr.appendChild(tdG4); tr.appendChild(tdAgenda);
+            tr.appendChild(tdData); tr.appendChild(tdDia); tr.appendChild(tdG1); tr.appendChild(tdG2); tr.appendChild(tdG3); tr.appendChild(tdG4);
             tbody.appendChild(tr);
         }
     }
@@ -937,7 +1132,7 @@
         if(newMonth < 0) { newMonth = 11; newYear--; }
         if(newMonth > 11) { newMonth = 0; newYear++; }
         if(newYear < 2024) newYear = 2024;
-        if(newYear > 2030) newYear = 2030;
+        if(newYear > 2050) newYear = 2050;
         currentYear = newYear;
         currentMonth = newMonth;
         updateMonthYearLabel();
@@ -982,7 +1177,7 @@
         renderScaleTable();
     });
 
-    // --- CONTROLE LOGICO DO MODAL DE SELEÇÃO DE DATA ---
+    // Modal de data
     const modalBox = document.getElementById("dateSelectorModal");
     const clickLabel = document.getElementById("monthYearLabel");
     const modalSelectMonth = document.getElementById("modalMonthSelect");
@@ -998,7 +1193,7 @@
         });
 
         modalSelectYear.innerHTML = "";
-        for (let y = 2024; y <= 2030; y++) {
+        for (let y = 2024; y <= 2050; y++) {
             const opt = document.createElement("option");
             opt.value = y;
             opt.innerText = y;
@@ -1032,7 +1227,7 @@
         }
     });
 
-    // --- CONTROLE LOGICO DO NOVO MODAL DO PIX ---
+    // Modal Pix
     const pixModal = document.getElementById("pixDonationModal");
     const openPixBtn = document.getElementById("openPixBtn");
     const closePixBtn = document.getElementById("modalClosePixBtn");
@@ -1066,7 +1261,78 @@
         });
     }
 
-    // Configura e inicia as funções padrões do app
+    // --- LOGICA DO NOVO MODAL DE DIALOGO DA AGENDA ---
+    const agendaPromptModal = document.getElementById("agendaPromptModal");
+    
+    document.getElementById("btnAgendaConfirmarGo").addEventListener("click", () => {
+        agendaPromptModal.classList.remove("show");
+        window.open("https://calendar.google.com/", "_blank");
+    });
+
+    document.getElementById("btnAgendaVisualizarEscala").addEventListener("click", () => {
+        agendaPromptModal.classList.remove("show");
+        const { d, m, y } = pendingClickDate;
+        if(currentView === "calendar") {
+            document.getElementById("viewScaleBtn").click();
+            setTimeout(() => scrollToDate(d, m, y), 80);
+        } else {
+            scrollToDate(d, m, y);
+        }
+    });
+
+    agendaPromptModal.addEventListener("click", (e) => {
+        if (e.target === agendaPromptModal) agendaPromptModal.classList.remove("show");
+    });
+
+    // --- LÓGICA DO MENU LATERAL E MUDANÇA DE CORES ---
+    const menuToggle = document.getElementById("menuToggle");
+    const sidebarMenu = document.getElementById("sidebarMenu");
+    const sidebarBackdrop = document.getElementById("sidebarBackdrop");
+    const themeButtons = document.querySelectorAll(".theme-btn");
+
+    function toggleMenu() {
+        sidebarMenu.classList.toggle("open");
+        sidebarBackdrop.classList.toggle("show");
+    }
+
+    menuToggle.addEventListener("click", toggleMenu);
+    sidebarBackdrop.addEventListener("click", toggleMenu);
+
+    themeButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        const theme = btn.getAttribute("data-theme-id");
+        
+        themeButtons.forEach(b => b.classList.remove("active-theme"));
+        btn.classList.add("active-theme");
+
+        if (theme === "default") {
+            document.documentElement.removeAttribute("data-theme");
+            localStorage.setItem("tema-selecionado", "default"); // Salva o padrão
+        } else {
+            document.documentElement.setAttribute("data-theme", theme);
+            localStorage.setItem("tema-selecionado", theme); // Salva o tema escolhido
+        }
+        
+        toggleMenu();
+        if (currentView === "calendar") renderCalendar();
+        else renderScaleTable();
+    });
+});
+// --- VERIFICA SE JÁ EXISTE UM TEMA SALVO AO CARREGAR A PÁGINA ---
+const temaSalvo = localStorage.getItem("tema-selecionado");
+if (temaSalvo && temaSalvo !== "default") {
+    document.documentElement.setAttribute("data-theme", temaSalvo);
+    
+    // Atualiza o botão ativo no menu lateral para o tema correto
+    themeButtons.forEach(b => {
+        if(b.getAttribute("data-theme-id") === temaSalvo) {
+            b.classList.add("active-theme");
+        } else {
+            b.classList.remove("active-theme");
+        }
+    });
+}
+
     setupModalSelectors();
     renderCalendar();
     renderScaleTable();
