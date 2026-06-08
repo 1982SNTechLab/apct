@@ -2,8 +2,8 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>CALENDARIO | TURNO FIXO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>CALENDÁRIO | ESCALAS</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -73,7 +73,7 @@
             min-height: 100vh;
         }
 
-        /* --- ESTILOS DO NOVO MENU SUPERIOR ESQUERDO --- */
+        /* --- ESTILOS DO MENU SUPERIOR ESQUERDO --- */
         .menu-toggle {
             position: fixed;
             top: 30px;
@@ -100,7 +100,6 @@
             transition: 0.3s;
         }
 
-        /* Sidebar do Menu com efeito Vidro Fosco */
         .sidebar-menu {
             position: fixed;
             top: 0;
@@ -255,6 +254,43 @@
             color: rgba(255, 255, 255, 0.9);
             margin-top: 2px;
             font-weight: 500;
+        }
+
+        /* --- CONFIGURAÇÃO DO MENU SELECTOR DE TABELAS --- */
+        .tabela-selector-container {
+            background: #ffffff;
+            padding: 10px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0f0f0;
+            gap: 10px;
+        }
+        .tabela-selector-container label {
+            font-size: 0.75rem;
+            color: #555555;
+            font-weight: 700;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .select-tabela {
+            flex: 1;
+            padding: 6px 10px;
+            border-radius: 20px;
+            border: 1px solid #dcdcdc;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--color-primary);
+            outline: none;
+            background-color: #f9f9f9;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .select-tabela:focus {
+            border-color: var(--color-secondary);
         }
 
         .grupo-selector {
@@ -500,9 +536,9 @@
             white-space: nowrap;
         }
 
-        .escala-table th:nth-child(1), .escala-table td:nth-child(1) { width: 24%; }
-        .escala-table th:nth-child(2), .escala-table td:nth-child(2) { width: 16%; }
-        .escala-table th:nth-child(n+3), .escala-table td:nth-child(n+3) { width: 15%; }
+        .escala-table th:nth-child(1), .escala-table td:nth-child(1) { width: 25%; }
+        .escala-table th:nth-child(2), .escala-table td:nth-child(2) { width: 15%; }
+        .escala-table th:nth-child(3), .escala-table td:nth-child(3) { width: 60%; }
 
         .col-data {
             text-align: left !important;
@@ -526,10 +562,7 @@
             display: inline-block;
         }
         
-        .turno-g1 { color: #df4a16; font-weight: 700; font-size: 1.35em; }
-        .turno-g2 { color: #c2410c; font-weight: 700; font-size: 1.35em; }
-        .turno-g3 { color: #501975; font-weight: 700; font-size: 1.35em; }
-        .turno-g4 { color: #6b21a8; font-weight: 700; font-size: 1.35em; }
+        .turno-escala-tab-trabalho { color: #df4a16; font-weight: 700; font-size: 1.25em; }
         .turno-folga-tab { color: #718096; font-weight: 600; font-size: 1.25em; }
 
         .btn-agenda {
@@ -562,13 +595,6 @@
             margin-bottom: 4px;
             font-weight: 700;
         }
-        .observ-box ul {
-            padding-left: 0;
-            color: #666666;
-            font-size: 0.65rem;
-            line-height: 1.3;
-        }
-        .observ-box li { margin: 3px 0; }
         
         .footer-note {
             text-align: center;
@@ -790,20 +816,28 @@
 
 <div class="app-container">
     <div class="header">
-        <div class="logo-text"> CALENDARIO </div>
+        <div class="logo-text"> CALENDÁRIO </div>
         <div class="header-card">
-            <h1>🏭 TURNO FIXO</h1>
-            <p>Escala 6x2</p>
+            <h1 id="headerTitle">🏭 TURNO FIXO</h1>
+            <p id="headerSubtitle">Escala 6x2</p>
         </div>
     </div>
 
-    <div class="grupo-selector">
-        <span>ㅤㅤㅤㅤㅤㅤ</span>
+    <div class="tabela-selector-container">
+        <label>🛠️ ESCALA:</label>
+        <select id="selectTabela" class="select-tabela">
+            <option value="fixo">Turno Fixo 6x2</option>
+            <option value="semanal">Semanal Trabalha Feriado</option>
+        </select>
+    </div>
+
+    <div class="grupo-selector" id="grupoSelectorArea">
+        <span></span>
         <div class="grupo-buttons">
-        <span>🌴 FOLGA →_→ㅤ</span>
+            <span>🌴 FOLGA →_→ </span>
             <button class="grupo-btn" data-grupo="G1">G1</button>
             <button class="grupo-btn" data-grupo="G2">G2</button>
-            <button class="grupo-btn active" data-grupo="G3">G3</button>
+            <button class="grupo-btn" data-grupo="G3">G3</button>
             <button class="grupo-btn" data-grupo="G4">G4</button>
         </div>
     </div>
@@ -825,40 +859,21 @@
             <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
         </div>
         <div id="calendarGrid" class="calendar-grid"></div>
+        
         <div class="observ-box" style="margin-top: 10px;">
-            
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding-bottom: 6px; border-bottom: 1px dashed #dcdcdc;">
                 <h3 style="margin-bottom: 0;">🎉 Feriados do Mês</h3>
                 <a href="https://calendar.google.com/" target="_blank" class="btn-agenda">🗓️ Agenda</a>
             </div>
-
-            <div id="feriadosMesList" style="margin-bottom: 10px;"></div>
-
-            <div style="margin-bottom: 6px;">
-                <h3 style="margin-bottom: 4px;">📌 Legenda</h3>
-            </div>
-            
-            <ul style="list-style-type: none;">
-                <li><span style="color: #df4a16; font-weight: bold;">■</span> Gradiente: Trabalho</li>
-                <li><span style="color: #718096; font-weight: bold;">■</span> Cinza claro: Folga do grupo</li>
-                <li><span style="color: #854d0e; font-weight: bold;">■</span> Amarelo: Feriado Nacional</li>
-            </ul>
+            <div id="feriadosMesList" style="margin-bottom: 4px;"></div>
         </div>
     </div>
 
     <div id="scaleView" class="escala-view">
         <div class="escala-table-wrapper">
             <table class="escala-table">
-                <thead>
-                    <tr>
-                        <th>DATA</th>
-                        <th>DIA</th>
-                        <th>G1</th>
-                        <th>G2</th>
-                        <th>G3</th>
-                        <th>G4</th>
-                    </tr>
-                </thead>
+                <thead id="escalaHeader">
+                    </thead>
                 <tbody id="escalaBody"></tbody>
             </table>
         </div>
@@ -874,7 +889,8 @@
 </button>
 
 <script>
-    const escalaBase = [
+    // --- LÓGICA E DADOS DO TURNO FIXO 6X2 ---
+    const escalaFixoBase = [
         { data: "16/05/2026", g1:"F", g2:"2", g3:"3", g4:"4" },
         { data: "17/05/2026", g1:"F", g2:"2", g3:"3", g4:"4" },
         { data: "18/05/2026", g1:"1", g2:"F", g3:"3", g4:"4" },
@@ -892,27 +908,41 @@
         { data: "30/05/2026", g1:"1", g2:"2", g3:"3", g4:"F" },
         { data: "31/05/2026", g1:"1", g2:"2", g3:"3", g4:"F" }
     ];
-    
-    const refDate = new Date(2026, 4, 16);
-    let pendingClickDate = { d: null, m: null, y: null };
-    
-    function getTurnoPorData(date) {
-        const diffTime = date - refDate;
+    const refDateFixo = new Date(2026, 4, 16);
+
+    function getTurnoFixoPorData(date) {
+        const diffTime = date - refDateFixo;
         const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
         let cicloPos = ((diffDays % 8) + 8) % 8;
-        const dadosReferencia = escalaBase[cicloPos];
+        const dadosReferencia = escalaFixoBase[cicloPos];
         if (dadosReferencia) {
             return { g1: dadosReferencia.g1, g2: dadosReferencia.g2, g3: dadosReferencia.g3, g4: dadosReferencia.g4 };
         }
-        const padraoBase = escalaBase.slice(0, 8);
-        const padrao = padraoBase[cicloPos % 8];
-        return padrao ? { g1: padrao.g1, g2: padrao.g2, g3: padrao.g3, g4: padrao.g4 } : { g1:"1", g2:"2", g3:"3", g4:"4" };
+        return { g1:"1", g2:"2", g3:"3", g4:"4" };
     }
-    
+
+    // --- LÓGICA E DADOS DO NOVO TURNO: SEMANAL TRABALHA FERIADO ---
+    const refDateSemanal = new Date(2026, 0, 1); 
+    const cicloSemanalStatus = [
+        "1", "1", "1", "F", "1", "1", "1",  
+        "1", "1", "F", "F", "1", "1", "1",  
+        "1", "1", "F", "F", "1", "1", "1",  
+    ]; 
+
+    function getTurnoSemanalPorData(date) {
+        const diffTime = date - refDateSemanal;
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        let cicloPos = ((diffDays % 21) + 21) % 21;
+        return cicloSemanalStatus[cicloPos]; 
+    }
+
+    // --- FERIADOS ---
     const feriadosNacionais = [
         { dia: 1, mes: 1, nome: "Confraternização Universal" },
         { dia: 21, mes: 4, nome: "Tiradentes" },
+        { dia: 29, mes: 4, nome: "Aniversário de Timóteo" }, 
         { dia: 1, mes: 5, nome: "Dia do Trabalhador" },
+        { dia: 15, mes: 8, nome: "Assunção Nossa Senhora" }, 
         { dia: 7, mes: 9, nome: "Independência do Brasil" },
         { dia: 12, mes: 10, nome: "Nossa Sra. Aparecida" },
         { dia: 2, mes: 11, nome: "Finados" },
@@ -959,23 +989,41 @@
     }
     
     const dataDispositivo = new Date();
-let currentYear = dataDispositivo.getFullYear();
-let currentMonth = dataDispositivo.getMonth();
-let currentView = "calendar";
-let selectedGrupo = localStorage.getItem("grupo-selecionado") || "G3"; 
+    let currentYear = dataDispositivo.getFullYear();
+    let currentMonth = dataDispositivo.getMonth();
+    let currentView = "calendar";
+    
+    // --- ESTADOS PERSISTIDOS COM LOCALSTORAGE ---
+    let selectedGrupo = localStorage.getItem("grupo-selecionado") || "G3";
+    let tabelaAtiva = localStorage.getItem("tabela-ativa") || "fixo"; 
     
     const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
     const weekDays = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
-    
-    function getTurnoGrupo(grupo, turnos) {
-        const map = { G1: turnos.g1, G2: turnos.g2, G3: turnos.g3, G4: turnos.g4 };
-        return map[grupo];
-    }
     
     function updateMonthYearLabel() {
         document.getElementById("monthYearLabel").innerText = `${monthNames[currentMonth]} ${currentYear}`;
     }
     
+    // Configura e altera a interface dependendo de qual tabela está salva/ativa
+    function ajustarInterfacePorTabela() {
+        const selectorEl = document.getElementById("selectTabela");
+        selectorEl.value = tabelaAtiva;
+
+        const areaGrupo = document.getElementById("grupoSelectorArea");
+        const titleEl = document.getElementById("headerTitle");
+        const subtitleEl = document.getElementById("headerSubtitle");
+
+        if (tabelaAtiva === "fixo") {
+            areaGrupo.style.display = "flex";
+            titleEl.innerText = "🏭 TURNO FIXO";
+            subtitleEl.innerText = "Escala 6x2";
+        } else {
+            areaGrupo.style.display = "none";
+            titleEl.innerText = "📅 SEMANAL";
+            subtitleEl.innerText = "Trabalha Feriado";
+        }
+    }
+
     function renderCalendar() {
         if(currentYear > 2050) currentYear = 2050;
         if(currentYear < 2024) currentYear = 2024;
@@ -1006,11 +1054,24 @@ let selectedGrupo = localStorage.getItem("grupo-selecionado") || "G3";
                     grid.appendChild(emptyDiv);
                 } else {
                     const dateObj = new Date(currentYear, currentMonth, dayNum);
-                    const turnos = getTurnoPorData(dateObj);
-                    const turnoGrupo = getTurnoGrupo(selectedGrupo, turnos);
+                    
+                    let isTrabalho = true;
+                    let textoStatus = "";
+
+                    if (tabelaAtiva === "fixo") {
+                        const turnos = getTurnoFixoPorData(dateObj);
+                        const mapGrupo = { G1: turnos.g1, G2: turnos.g2, G3: turnos.g3, G4: turnos.g4 };
+                        const turnoGrupo = mapGrupo[selectedGrupo];
+                        isTrabalho = (turnoGrupo !== "F");
+                        textoStatus = isTrabalho ? `TG${selectedGrupo.charAt(1)}` : 'Folga';
+                    } else {
+                        const statusSemanal = getTurnoSemanalPorData(dateObj);
+                        isTrabalho = (statusSemanal !== "F");
+                        textoStatus = isTrabalho ? 'Trabalho' : 'Folga';
+                    }
+
                     const isFeriado = feriadosMap.has(`${currentMonth+1}/${dayNum}`);
                     const feriadoNome = isFeriado ? feriadosMap.get(`${currentMonth+1}/${dayNum}`) : "";
-                    const isTrabalho = turnoGrupo !== "F";
                     
                     const dayDiv = document.createElement("div");
                     dayDiv.className = "calendar-day";
@@ -1019,7 +1080,7 @@ let selectedGrupo = localStorage.getItem("grupo-selecionado") || "G3";
                     dayDiv.innerHTML = `
                         <div class="day-number">${dayNum}</div>
                         <div class="turno-status ${isTrabalho ? 'turno-trabalho' : 'turno-folga'}">
-                            ${isTrabalho ? `TG${selectedGrupo.charAt(1)}` : 'Folga'}
+                            ${textoStatus}
                         </div>
                         ${isFeriado ? `<div class="feriado-badge" title="${feriadoNome}">${feriadoNome.substring(0, 5)}</div>` : ''}
                     `;
@@ -1045,12 +1106,12 @@ let selectedGrupo = localStorage.getItem("grupo-selecionado") || "G3";
                 feriadosDoMes.sort((a,b) => a.dia - b.dia).forEach(f => {
                     const diaFormatado = f.dia.toString().padStart(2, '0');
                     const mesFormatado = f.mes.toString().padStart(2, '0');
-                    html += `<li><span style="color:#df4a16; font-weight:bold;">${diaFormatado}/${mesFormatado}</span> - ${f.nome}</li>`;
+                    html += `<li style="font-size:0.65rem; color:#666; margin: 3px 0;"><span style="color:#df4a16; font-weight:bold;">${diaFormatado}/${mesFormatado}</span> - ${f.nome}</li>`;
                 });
                 html += '</ul>';
                 feriadosContainer.innerHTML = html;
             } else {
-                feriadosContainer.innerHTML = '<ul style="list-style-type: none;"><li><span style="color: #666;">Nenhum feriado neste mês.</span></li></ul>';
+                feriadosContainer.innerHTML = '<ul style="list-style-type: none;"><li><span style="font-size:0.65rem; color: #666;">Nenhum feriado neste mês.</span></li></ul>';
             }
         }
     }
@@ -1070,9 +1131,37 @@ let selectedGrupo = localStorage.getItem("grupo-selecionado") || "G3";
     }
     
     function renderScaleTable() {
+        const thead = document.getElementById('escalaHeader');
         const tbody = document.getElementById('escalaBody');
-        if(!tbody) return;
+        if(!tbody || !thead) return;
+        
         tbody.innerHTML = '';
+        thead.innerHTML = '';
+
+        if (tabelaAtiva === "fixo") {
+            thead.innerHTML = `
+                <tr>
+                    <th>DATA</th>
+                    <th>DIA</th>
+                    <th style="width: 15%">G1</th>
+                    <th style="width: 15%">G2</th>
+                    <th style="width: 15%">G3</th>
+                    <th style="width: 15%">G4</th>
+                </tr>
+            `;
+            document.querySelectorAll('.escala-table th').forEach((el, index) => {
+                if(index === 0) el.style.width = "24%";
+                if(index === 1) el.style.width = "16%";
+            });
+        } else {
+            thead.innerHTML = `
+                <tr>
+                    <th>DATA</th>
+                    <th>DIA</th>
+                    <th>STATUS DO TURNO</th>
+                </tr>
+            `;
+        }
         
         const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
         const feriados = getFeriadosByYear(currentYear);
@@ -1082,7 +1171,6 @@ let selectedGrupo = localStorage.getItem("grupo-selecionado") || "G3";
         for(let d = 1; d <= daysInMonth; d++) {
             const dataObj = new Date(currentYear, currentMonth, d);
             const diaSemana = weekDays[dataObj.getDay()];
-            const turnos = getTurnoPorData(dataObj);
             const diaStr = d.toString().padStart(2,'0');
             const mesStr = (currentMonth+1).toString().padStart(2,'0');
             const chaveFeriado = `${currentMonth+1}/${diaStr}`;
@@ -1094,20 +1182,39 @@ let selectedGrupo = localStorage.getItem("grupo-selecionado") || "G3";
             if(diaSemana === "Dom") classeDia += " dom";
             let feriadoBadge = isFeriado ? `<span class="feriado-marker" title="${feriadoNome}">★</span>` : '';
             
-            const getTurnoClass = (valor, tipo) => valor === 'F' ? 'turno-folga-tab' : `turno-${tipo}`;
-            
             const tr = document.createElement('tr');
             if(isFeriado) tr.style.background = "#fffbeb";
             
             const tdData = document.createElement('td'); tdData.className = "col-data";
             tdData.innerHTML = `${diaStr}/${mesStr} ${feriadoBadge}`;
-            const tdDia = document.createElement('td'); tdDia.className = classeDia; tdDia.innerText = diaSemana;
-            const tdG1 = document.createElement('td'); tdG1.className = getTurnoClass(turnos.g1, 'g1'); tdG1.innerText = turnos.g1;
-            const tdG2 = document.createElement('td'); tdG2.className = getTurnoClass(turnos.g2, 'g2'); tdG2.innerText = turnos.g2;
-            const tdG3 = document.createElement('td'); tdG3.className = getTurnoClass(turnos.g3, 'g3'); tdG3.innerText = turnos.g3;
-            const tdG4 = document.createElement('td'); tdG4.className = getTurnoClass(turnos.g4, 'g4'); tdG4.innerText = turnos.g4;
             
-            tr.appendChild(tdData); tr.appendChild(tdDia); tr.appendChild(tdG1); tr.appendChild(tdG2); tr.appendChild(tdG3); tr.appendChild(tdG4);
+            const tdDia = document.createElement('td'); tdDia.className = classeDia; tdDia.innerText = diaSemana;
+            tr.appendChild(tdData); 
+            tr.appendChild(tdDia);
+
+            if (tabelaAtiva === "fixo") {
+                const turnos = getTurnoFixoPorData(dataObj);
+                const getTurnoClass = (valor) => valor === 'F' ? 'turno-folga-tab' : 'turno-escala-tab-trabalho';
+                
+                const tdG1 = document.createElement('td'); tdG1.className = getTurnoClass(turnos.g1); tdG1.innerText = turnos.g1;
+                const tdG2 = document.createElement('td'); tdG2.className = getTurnoClass(turnos.g2); tdG2.innerText = turnos.g2;
+                const tdG3 = document.createElement('td'); tdG3.className = getTurnoClass(turnos.g3); tdG3.innerText = turnos.g3;
+                const tdG4 = document.createElement('td'); tdG4.className = getTurnoClass(turnos.g4); tdG4.innerText = turnos.g4;
+                
+                tr.appendChild(tdG1); tr.appendChild(tdG2); tr.appendChild(tdG3); tr.appendChild(tdG4);
+            } else {
+                const statusSemanal = getTurnoSemanalPorData(dataObj);
+                const tdStatus = document.createElement('td');
+                if (statusSemanal === "F") {
+                    tdStatus.className = "turno-folga-tab";
+                    tdStatus.innerText = "FOLGA";
+                } else {
+                    tdStatus.className = "turno-escala-tab-trabalho";
+                    tdStatus.innerText = "TRABALHO (06:50 às 15:00)";
+                }
+                tr.appendChild(tdStatus);
+            }
+            
             tbody.appendChild(tr);
         }
     }
@@ -1128,13 +1235,24 @@ let selectedGrupo = localStorage.getItem("grupo-selecionado") || "G3";
     
     function setGrupo(grupo) {
         selectedGrupo = grupo;
-        localStorage.setItem("grupo-selecionado", grupo);
+        localStorage.setItem("grupo-selecionado", grupo); // Salva o grupo escolhido
         document.querySelectorAll('.grupo-btn').forEach(btn => {
             if(btn.getAttribute('data-grupo') === grupo) btn.classList.add('active');
             else btn.classList.remove('active');
         });
         if(currentView === "calendar") renderCalendar();
     }
+
+    // Interceptador e salvador de mudança no Seletor de Tabelas do App
+    document.getElementById("selectTabela").addEventListener("change", (e) => {
+        tabelaAtiva = e.target.value;
+        localStorage.setItem("tabela-ativa", tabelaAtiva); // FIXA A ESCOLHA NO LOCALSTORAGE
+        
+        ajustarInterfacePorTabela();
+
+        if(currentView === "calendar") renderCalendar();
+        else renderScaleTable();
+    });
     
     document.getElementById("prevMonthBtn").addEventListener("click", () => changeMonth(-1));
     document.getElementById("nextMonthBtn").addEventListener("click", () => changeMonth(1));
@@ -1194,49 +1312,31 @@ let selectedGrupo = localStorage.getItem("grupo-selecionado") || "G3";
     });
 
     document.getElementById("modalCancelBtn").addEventListener("click", () => modalBox.classList.remove("show"));
-    
-    modalBox.addEventListener("click", (e) => {
-        if (e.target === modalBox) modalBox.classList.remove("show");
-    });
+    modalBox.addEventListener("click", (e) => { if (e.target === modalBox) modalBox.classList.remove("show"); });
 
     document.getElementById("modalConfirmBtn").addEventListener("click", () => {
         currentMonth = parseInt(modalSelectMonth.value);
         currentYear = parseInt(modalSelectYear.value);
-        
         modalBox.classList.remove("show");
         updateMonthYearLabel();
-
-        if (currentView === "calendar") {
-            renderCalendar();
-        } else {
-            renderScaleTable();
-        }
+        if (currentView === "calendar") renderCalendar();
+        else renderScaleTable();
     });
 
     const pixModal = document.getElementById("pixDonationModal");
     const openPixBtn = document.getElementById("openPixBtn");
     const closePixBtn = document.getElementById("modalClosePixBtn");
 
-    openPixBtn.addEventListener("click", () => {
-        pixModal.classList.add("show");
-    });
-
-    closePixBtn.addEventListener("click", () => {
-        pixModal.classList.remove("show");
-    });
-
-    pixModal.addEventListener("click", (e) => {
-        if (e.target === pixModal) pixModal.classList.remove("show");
-    });
+    openPixBtn.addEventListener("click", () => { pixModal.classList.add("show"); });
+    closePixBtn.addEventListener("click", () => { pixModal.classList.remove("show"); });
+    pixModal.addEventListener("click", (e) => { if (e.target === pixModal) pixModal.classList.remove("show"); });
 
     function copyPixCode() {
         const pixText = document.getElementById("pixCodeText").innerText;
         const btnCopy = document.getElementById("btnCopyPix");
-        
         navigator.clipboard.writeText(pixText).then(function() {
             btnCopy.innerText = "✓ Copiado!";
             btnCopy.style.background = "#2e7d32";
-            
             setTimeout(() => {
                 btnCopy.innerText = "Copiar Código Pix";
                 btnCopy.style.background = "#32bcad";
@@ -1247,7 +1347,6 @@ let selectedGrupo = localStorage.getItem("grupo-selecionado") || "G3";
     }
 
     const agendaPromptModal = document.getElementById("agendaPromptModal");
-    
     document.getElementById("btnAgendaConfirmarGo").addEventListener("click", () => {
         agendaPromptModal.classList.remove("show");
         window.open("https://calendar.google.com/", "_blank");
@@ -1263,10 +1362,7 @@ let selectedGrupo = localStorage.getItem("grupo-selecionado") || "G3";
             scrollToDate(d, m, y);
         }
     });
-
-    agendaPromptModal.addEventListener("click", (e) => {
-        if (e.target === agendaPromptModal) agendaPromptModal.classList.remove("show");
-    });
+    agendaPromptModal.addEventListener("click", (e) => { if (e.target === agendaPromptModal) agendaPromptModal.classList.remove("show"); });
 
     const menuToggle = document.getElementById("menuToggle");
     const sidebarMenu = document.getElementById("sidebarMenu");
@@ -1284,7 +1380,6 @@ let selectedGrupo = localStorage.getItem("grupo-selecionado") || "G3";
     themeButtons.forEach(btn => {
         btn.addEventListener("click", () => {
             const theme = btn.getAttribute("data-theme-id");
-            
             themeButtons.forEach(b => b.classList.remove("active-theme"));
             btn.classList.add("active-theme");
 
@@ -1295,7 +1390,6 @@ let selectedGrupo = localStorage.getItem("grupo-selecionado") || "G3";
                 document.documentElement.setAttribute("data-theme", theme);
                 localStorage.setItem("tema-selecionado", theme);
             }
-            
             toggleMenu();
             if (currentView === "calendar") renderCalendar();
             else renderScaleTable();
@@ -1305,21 +1399,19 @@ let selectedGrupo = localStorage.getItem("grupo-selecionado") || "G3";
     const temaSalvo = localStorage.getItem("tema-selecionado");
     if (temaSalvo && temaSalvo !== "default") {
         document.documentElement.setAttribute("data-theme", temaSalvo);
-        
         themeButtons.forEach(b => {
-            if(b.getAttribute("data-theme-id") === temaSalvo) {
-                b.classList.add("active-theme");
-            } else {
-                b.classList.remove("active-theme");
-            }
+            if(b.getAttribute("data-theme-id") === temaSalvo) b.classList.add("active-theme");
+            else b.classList.remove("active-theme");
         });
     }
 
+    // --- CARREGAMENTO INICIAL DO ESTADO PERSISTIDO ---
+    ajustarInterfacePorTabela();
+    setGrupo(selectedGrupo);
     setupModalSelectors();
-    setGrupo(selectedGrupo); // <--- Adicione isto para ativar visualmente o botão correto no início
-    renderScaleTable();
-    scaleDiv.classList.remove("active-view");
-    calendarDiv.classList.add("active-view");
+    
+    if(currentView === "calendar") renderCalendar();
+    else renderScaleTable();
 </script>
 </body>
 </html>
