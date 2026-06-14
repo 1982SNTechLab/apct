@@ -425,7 +425,7 @@
             margin-bottom: 6px;
         }
         .weekdays span {
-            font-size: 0.65rem;
+            font-size: 0.75rem;
             font-weight: 600;
             color: #999999;
         }
@@ -805,7 +805,7 @@
     <div class="modal-content">
         <div class="modal-title">O que deseja fazer?</div>
         <p style="font-size: 0.75rem; color: #555555; margin-bottom: 20px; line-height: 1.4; text-align: center;">
-            Deseja abrir o Google Calendário para gerenciar seus compromissos ou prefere visualizar os detalhes da escala na tabela?
+            
         </p>
         <div class="modal-actions">
             <button id="btnAgendaVisualizarEscala" class="modal-btn btn-cancelar" style="font-size: 0.65rem;">Ver Escala</button>
@@ -880,7 +880,7 @@
     </div>
 
     <div class="footer-note">
-        Escala inteligente.
+        SnTechLab® 2026
     </div>
 </div>
 
@@ -1067,7 +1067,7 @@
                     } else {
                         const statusSemanal = getTurnoSemanalPorData(dateObj);
                         isTrabalho = (statusSemanal !== "F");
-                        textoStatus = isTrabalho ? 'Trabalho' : 'Folga';
+                        textoStatus = isTrabalho ? 'TR' : 'Folga';
                     }
 
                     const isFeriado = feriadosMap.has(`${currentMonth+1}/${dayNum}`);
