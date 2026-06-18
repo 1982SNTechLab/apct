@@ -828,17 +828,17 @@
         <select id="selectTabela" class="select-tabela">
             <option value="fixo">Turno Fixo 6x2</option>
             <option value="semanal">Semanal Trabalha Feriado</option>
+            <option value="duas_turmas">2 Turnos Semanal</option>
         </select>
     </div>
 
     <div class="grupo-selector" id="grupoSelectorArea">
-        <span></span>
+        <span id="labelSeletorGrupo">🌴 FOLGA →_→ </span>
         <div class="grupo-buttons">
-            <span>🌴 FOLGA →_→ </span>
-            <button class="grupo-btn" data-grupo="G1">G1</button>
-            <button class="grupo-btn" data-grupo="G2">G2</button>
-            <button class="grupo-btn" data-grupo="G3">G3</button>
-            <button class="grupo-btn" data-grupo="G4">G4</button>
+            <button class="grupo-btn" data-grupo="G1" id="btnG1">G1</button>
+            <button class="grupo-btn" data-grupo="G2" id="btnG2">G2</button>
+            <button class="grupo-btn" data-grupo="G3" id="btnG3">G3</button>
+            <button class="grupo-btn" data-grupo="G4" id="btnG4">G4</button>
         </div>
     </div>
 
@@ -921,7 +921,7 @@
         return { g1:"1", g2:"2", g3:"3", g4:"4" };
     }
 
-    // --- LÓGICA E DADOS DO NOVO TURNO: SEMANAL TRABALHA FERIADO ---
+    // --- LÓGICA E DADOS DO TURNO: SEMANAL TRABALHA FERIADO ---
     const refDateSemanal = new Date(2026, 0, 1); 
     const cicloSemanalStatus = [
         "1", "1", "1", "F", "1", "1", "1",  
@@ -934,6 +934,28 @@
         const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
         let cicloPos = ((diffDays % 21) + 21) % 21;
         return cicloSemanalStatus[cicloPos]; 
+    }
+
+    // --- LÓGICA E DADOS DA NOVA ESCALA: 2 TURNOS SEMANAL (TM e TT) ---
+    // Referência estável: 03/02/2025 (Segunda-feira) que é o Dia 1 do ciclo informado por imagem
+    const refDateSemanal2 = new Date(2025, 1, 3); 
+    
+    // Matriz de 21 dias contendo o status de cada dia para G1 (TM) e G2 (TT)
+    // "1" = Trabalha, "F" = Folga
+    const cicloSemanal2Status = [
+        // Semana 1: Seg a Dom
+        { g1: "1", g2: "1" }, { g1: "1", g2: "1" }, { g1: "1", g2: "1" }, { g1: "1", g2: "1" }, { g1: "1", g2: "1" }, { g1: "F", g2: "1" }, { g1: "F", g2: "F" },
+        // Semana 2: Seg a Dom
+        { g1: "F", g2: "1" }, { g1: "1", g2: "1" }, { g1: "1", g2: "1" }, { g1: "1", g2: "1" }, { g1: "1", g2: "1" }, { g1: "1", g2: "F" }, { g1: "F", g2: "F" },
+        // Semana 3: Seg a Dom
+        { g1: "1", g2: "F" }, { g1: "1", g2: "1" }, { g1: "1", g2: "1" }, { g1: "1", g2: "1" }, { g1: "1", g2: "1" }, { g1: "1", g2: "1" }, { g1: "F", g2: "F" }
+    ];
+
+    function getTurnosSemanal2PorData(date) {
+        const diffTime = date - refDateSemanal2;
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        let cicloPos = ((diffDays % 21) + 21) % 21;
+        return cicloSemanal2Status[cicloPos];
     }
 
     // --- FERIADOS ---
@@ -994,7 +1016,7 @@
     let currentView = "calendar";
     
     // --- ESTADOS PERSISTIDOS COM LOCALSTORAGE ---
-    let selectedGrupo = localStorage.getItem("grupo-selecionado") || "G3";
+    let selectedGrupo = localStorage.getItem("grupo-selecionado") || "G1";
     let tabelaAtiva = localStorage.getItem("tabela-ativa") || "fixo"; 
     
     const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
@@ -1010,16 +1032,38 @@
         selectorEl.value = tabelaAtiva;
 
         const areaGrupo = document.getElementById("grupoSelectorArea");
+        const labelSeletor = document.getElementById("labelSeletorGrupo");
         const titleEl = document.getElementById("headerTitle");
         const subtitleEl = document.getElementById("headerSubtitle");
+        
+        const btn1 = document.getElementById("btnG1");
+        const btn2 = document.getElementById("btnG2");
+        const btn3 = document.getElementById("btnG3");
+        const btn4 = document.getElementById("btnG4");
 
         if (tabelaAtiva === "fixo") {
             areaGrupo.style.display = "flex";
+            labelSeletor.innerText = "🌴 FOLGA →_→ ";
             titleEl.innerText = "🏭 TURNO FIXO";
             subtitleEl.innerText = "Escala 6x2";
+            btn1.innerText = "G1"; btn2.innerText = "G2";
+            btn3.style.display = "inline-flex"; btn4.style.display = "inline-flex";
+            if(selectedGrupo !== "G1" && selectedGrupo !== "G2" && selectedGrupo !== "G3" && selectedGrupo !== "G4") {
+                setGrupo("G1");
+            }
+        } else if (tabelaAtiva === "duas_turmas") {
+            areaGrupo.style.display = "flex";
+            labelSeletor.innerText = "🔍 SELECIONAR TURNO:";
+            titleEl.innerText = "🔄 2 TURNOS SEMANAL";
+            subtitleEl.innerText = "Alternância TM / TT";
+            btn1.innerText = "TM"; btn2.innerText = "TT";
+            btn3.style.display = "none"; btn4.style.display = "none";
+            if(selectedGrupo !== "G1" && selectedGrupo !== "G2") {
+                setGrupo("G1");
+            }
         } else {
             areaGrupo.style.display = "none";
-            titleEl.innerText = "📅 SEMANAL";
+            titleEl.innerText = "SEMANAL";
             subtitleEl.innerText = "Trabalha Feriado";
         }
     }
@@ -1064,6 +1108,12 @@
                         const turnoGrupo = mapGrupo[selectedGrupo];
                         isTrabalho = (turnoGrupo !== "F");
                         textoStatus = isTrabalho ? `TG${selectedGrupo.charAt(1)}` : 'Folga';
+                    } else if (tabelaAtiva === "duas_turmas") {
+                        const turnosS2 = getTurnosSemanal2PorData(dateObj);
+                        const statusTurma = (selectedGrupo === "G1") ? turnosS2.g1 : turnosS2.g2;
+                        isTrabalho = (statusTurma !== "F");
+                        const labelTurno = (selectedGrupo === "G1") ? "TM" : "TT";
+                        textoStatus = isTrabalho ? labelTurno : 'Folga';
                     } else {
                         const statusSemanal = getTurnoSemanalPorData(dateObj);
                         isTrabalho = (statusSemanal !== "F");
@@ -1153,6 +1203,19 @@
                 if(index === 0) el.style.width = "24%";
                 if(index === 1) el.style.width = "16%";
             });
+        } else if (tabelaAtiva === "duas_turmas") {
+            thead.innerHTML = `
+                <tr>
+                    <th>DATA</th>
+                    <th>DIA</th>
+                    <th style="width: 30%">TM (06:50 - 15:00)</th>
+                    <th style="width: 30%">TT (14:50 - 23:00)</th>
+                </tr>
+            `;
+            document.querySelectorAll('.escala-table th').forEach((el, index) => {
+                if(index === 0) el.style.width = "24%";
+                if(index === 1) el.style.width = "16%";
+            });
         } else {
             thead.innerHTML = `
                 <tr>
@@ -1202,6 +1265,19 @@
                 const tdG4 = document.createElement('td'); tdG4.className = getTurnoClass(turnos.g4); tdG4.innerText = turnos.g4;
                 
                 tr.appendChild(tdG1); tr.appendChild(tdG2); tr.appendChild(tdG3); tr.appendChild(tdG4);
+            } else if (tabelaAtiva === "duas_turmas") {
+                const turnosS2 = getTurnosSemanal2PorData(dataObj);
+                
+                const tdTM = document.createElement('td');
+                if(turnosS2.g1 === "F") { tdTM.className = "turno-folga-tab"; tdTM.innerText = "FOLGA"; }
+                else { tdTM.className = "turno-escala-tab-trabalho"; tdTM.innerText = "TRABALHO"; }
+                
+                const tdTT = document.createElement('td');
+                if(turnosS2.g2 === "F") { tdTT.className = "turno-folga-tab"; tdTT.innerText = "FOLGA"; }
+                else { tdTT.className = "turno-escala-tab-trabalho"; tdTT.innerText = "TRABALHO"; }
+                
+                tr.appendChild(tdTM);
+                tr.appendChild(tdTT);
             } else {
                 const statusSemanal = getTurnoSemanalPorData(dataObj);
                 const tdStatus = document.createElement('td');
